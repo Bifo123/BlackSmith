@@ -17,6 +17,11 @@ public final class ModCreativeTabs {
                     .icon(() -> ModItems.SMITH_HAMMER.get().getDefaultInstance())
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.SMITH_HAMMER.get());
+                        output.accept(ModItems.TIN_ORE.get());
+                        output.accept(ModItems.RAW_TIN.get());
+                        output.accept(ModItems.TIN_INGOT.get());
+                        output.accept(ModItems.BRONZE_INGOT.get());
+                        output.accept(ModItems.STEEL_INGOT.get());
                     })
                     .build());
 

@@ -1,0 +1,10 @@
+{
+  "type": "forjasuprema:alloying",
+  "inputs": [
+    { "ingredient": { "tag": "c:ingots/iron" }, "count": 2 },
+    { "ingredient": { "tag": "minecraft:coals" }, "count": 1 }
+  ],
+  "result": { "id": "forjasuprema:steel_ingot", "count": 2 },
+  "min_flame": 4,
+  "min_temperature": 1500
+}

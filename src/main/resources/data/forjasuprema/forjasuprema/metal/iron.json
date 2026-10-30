@@ -1,0 +1,12 @@
+{
+  "item_tag": "c:ingots/iron",
+  "hardness": 0.45,
+  "strength": 0.55,
+  "malleability": 0.60,
+  "hardenability": 0.25,
+  "melt_temperature": 1538,
+  "work_temp_min": 900,
+  "work_temp_max": 1250,
+  "tier": 1,
+  "treatments": ["forjasuprema:annealing", "forjasuprema:quench", "forjasuprema:carburizing"]
+}

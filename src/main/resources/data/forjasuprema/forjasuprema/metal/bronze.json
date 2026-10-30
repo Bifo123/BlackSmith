@@ -1,0 +1,13 @@
+{
+  "item_tag": "c:ingots/bronze",
+  "hardness": 0.50,
+  "strength": 0.50,
+  "malleability": 0.65,
+  "hardenability": 0.15,
+  "melt_temperature": 950,
+  "work_temp_min": 500,
+  "work_temp_max": 800,
+  "tier": 1,
+  "treatments": ["forjasuprema:annealing", "forjasuprema:quench"],
+  "properties": ["forjasuprema:corrosion_resistant"]
+}

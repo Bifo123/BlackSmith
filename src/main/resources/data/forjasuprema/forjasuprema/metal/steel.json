@@ -1,0 +1,17 @@
+{
+  "item_tag": "c:ingots/steel",
+  "hardness": 0.75,
+  "strength": 0.80,
+  "malleability": 0.45,
+  "hardenability": 0.90,
+  "melt_temperature": 1450,
+  "work_temp_min": 850,
+  "work_temp_max": 1150,
+  "tier": 2,
+  "treatments": [
+    "forjasuprema:annealing",
+    "forjasuprema:quench",
+    "forjasuprema:tempering",
+    "forjasuprema:surface_hardening"
+  ]
+}

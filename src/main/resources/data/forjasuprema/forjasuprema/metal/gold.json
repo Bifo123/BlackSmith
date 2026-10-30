@@ -1,0 +1,13 @@
+{
+  "item_tag": "c:ingots/gold",
+  "hardness": 0.15,
+  "strength": 0.15,
+  "malleability": 0.95,
+  "hardenability": 0.05,
+  "melt_temperature": 1064,
+  "work_temp_min": 500,
+  "work_temp_max": 850,
+  "tier": 0,
+  "treatments": ["forjasuprema:annealing"],
+  "properties": ["forjasuprema:corrosion_resistant"]
+}

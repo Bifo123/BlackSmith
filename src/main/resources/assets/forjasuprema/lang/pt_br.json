@@ -1,4 +1,16 @@
 {
   "itemGroup.forjasuprema.main": "Forja Suprema",
-  "item.forjasuprema.smith_hammer": "Martelo de Ferreiro"
+  "item.forjasuprema.smith_hammer": "Martelo de Ferreiro",
+  "block.forjasuprema.tin_ore": "Minério de Estanho",
+  "item.forjasuprema.raw_tin": "Estanho Bruto",
+  "item.forjasuprema.tin_ingot": "Lingote de Estanho",
+  "item.forjasuprema.bronze_ingot": "Lingote de Bronze",
+  "item.forjasuprema.steel_ingot": "Lingote de Aço",
+  "commands.forjasuprema.metal.list": "Metais registrados (%s): %s",
+  "commands.forjasuprema.metal.unknown": "Metal desconhecido: %s",
+  "commands.forjasuprema.metal.info": "%s | tier %s | dureza %s | resistência %s | maleabilidade %s | endurecibilidade %s | fusão %s °C | janela de forja %s-%s °C",
+  "commands.forjasuprema.metal.held": "%s pertence ao metal %s",
+  "commands.forjasuprema.metal.held.none": "O item na mão não pertence a nenhum metal registrado.",
+  "commands.forjasuprema.alloy.none": "Nenhuma receita de liga corresponde ao seu inventário.",
+  "commands.forjasuprema.alloy.ok": "Liga produzida: %s x%s (%s lotes). Comando de depuração: ignora chama e temperatura até a Fase 4."
 }

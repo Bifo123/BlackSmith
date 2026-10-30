@@ -1,0 +1,12 @@
+{
+  "item_tag": "c:ingots/tin",
+  "hardness": 0.10,
+  "strength": 0.10,
+  "malleability": 0.80,
+  "hardenability": 0.00,
+  "melt_temperature": 232,
+  "work_temp_min": 100,
+  "work_temp_max": 200,
+  "tier": 0,
+  "properties": ["forjasuprema:corrosion_resistant"]
+}

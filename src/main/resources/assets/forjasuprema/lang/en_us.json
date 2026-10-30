@@ -1,4 +1,16 @@
 {
   "itemGroup.forjasuprema.main": "Forja Suprema",
-  "item.forjasuprema.smith_hammer": "Smith's Hammer"
+  "item.forjasuprema.smith_hammer": "Smith's Hammer",
+  "block.forjasuprema.tin_ore": "Tin Ore",
+  "item.forjasuprema.raw_tin": "Raw Tin",
+  "item.forjasuprema.tin_ingot": "Tin Ingot",
+  "item.forjasuprema.bronze_ingot": "Bronze Ingot",
+  "item.forjasuprema.steel_ingot": "Steel Ingot",
+  "commands.forjasuprema.metal.list": "Registered metals (%s): %s",
+  "commands.forjasuprema.metal.unknown": "Unknown metal: %s",
+  "commands.forjasuprema.metal.info": "%s | tier %s | hardness %s | strength %s | malleability %s | hardenability %s | melts at %s C | work window %s-%s C",
+  "commands.forjasuprema.metal.held": "%s belongs to metal %s",
+  "commands.forjasuprema.metal.held.none": "The held item does not belong to any registered metal.",
+  "commands.forjasuprema.alloy.none": "No alloy recipe matches your inventory.",
+  "commands.forjasuprema.alloy.ok": "Alloy produced: %s x%s (%s batches). Debug command: ignores flame and temperature until Phase 4."
 }

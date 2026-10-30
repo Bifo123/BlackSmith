@@ -1,0 +1,12 @@
+{
+  "item_tag": "c:ingots/copper",
+  "hardness": 0.25,
+  "strength": 0.30,
+  "malleability": 0.85,
+  "hardenability": 0.05,
+  "melt_temperature": 1085,
+  "work_temp_min": 500,
+  "work_temp_max": 900,
+  "tier": 0,
+  "treatments": ["forjasuprema:annealing"]
+}

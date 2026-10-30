@@ -20,9 +20,11 @@ Este documento responde ao item 20 do documento mestre: arquitetura, dependênci
 com.forjasuprema
 ├── ForjaSuprema.java            # entrada do mod, liga registros e compat
 ├── config/                      # ForjaConfig (ModConfigSpec)
-├── registry/                    # ModItems, ModBlocks, ModCreativeTabs, (futuro) ModDataComponents,
-│                                #   ModAttachments, ModMenus, ModRecipeTypes, ModBlockEntities
-├── metal/                       # MetalProperties, Alloy, registro dinâmico de metais     (Fase 2)
+├── registry/                    # ModItems, ModBlocks, ModCreativeTabs, ModRegistries, ModRecipes,
+│                                #   (futuro) ModDataComponents, ModAttachments, ModMenus, ModBlockEntities
+├── command/                     # /forjasuprema: inspeção e depuração (permissão 2)
+├── metal/                       # Metal (record+codec), MetalLookup                      (Fase 2 ✔)
+│   └── alloy/                   # AlloyRecipe, AlloyInput, AlloyService                   (Fase 2 ✔)
 ├── thermal/                     # Fuel, FlameLevel, ForgeHeatState, HeatData, ThermalMath  (Fase 4)
 ├── station/                     # blocos, block entities, menus das 10 estações          (Fase 3)
 ├── minigame/                    # sessões, regras de pontuação, validação server-side    (Fase 5)

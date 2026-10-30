@@ -1,16 +1,20 @@
 package com.forjasuprema;
 
+import com.forjasuprema.command.ForjaCommands;
 import com.forjasuprema.compat.CompatManager;
 import com.forjasuprema.config.ForjaConfig;
 import com.forjasuprema.registry.ModBlocks;
 import com.forjasuprema.registry.ModCreativeTabs;
 import com.forjasuprema.registry.ModItems;
+import com.forjasuprema.registry.ModRecipes;
+import com.forjasuprema.registry.ModRegistries;
 import com.mojang.logging.LogUtils;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 
 /**
@@ -28,10 +32,15 @@ public class ForjaSuprema {
         ModBlocks.BLOCKS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModCreativeTabs.TABS.register(modEventBus);
+        ModRecipes.TYPES.register(modEventBus);
+        ModRecipes.SERIALIZERS.register(modEventBus);
+
+        modEventBus.addListener(ModRegistries::registerDatapackRegistries);
+        modEventBus.addListener(this::commonSetup);
+
+        NeoForge.EVENT_BUS.addListener(ForjaCommands::register);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, ForjaConfig.SPEC);
-
-        modEventBus.addListener(this::commonSetup);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
