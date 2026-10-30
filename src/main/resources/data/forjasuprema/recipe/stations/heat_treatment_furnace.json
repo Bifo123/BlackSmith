@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:brick"
+    },
+    "X": {
+      "item": "minecraft:blast_furnace"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "BXB",
+    "III"
+  ],
+  "result": {
+    "id": "forjasuprema:heat_treatment_furnace",
+    "count": 1
+  }
+}

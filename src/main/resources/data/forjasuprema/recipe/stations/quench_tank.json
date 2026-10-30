@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "W": {
+      "item": "minecraft:water_bucket"
+    }
+  },
+  "pattern": [
+    "I I",
+    "IWI",
+    "III"
+  ],
+  "result": {
+    "id": "forjasuprema:quench_tank",
+    "count": 1
+  }
+}

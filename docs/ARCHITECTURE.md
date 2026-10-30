@@ -26,7 +26,8 @@ com.forjasuprema
 ├── metal/                       # Metal (record+codec), MetalLookup                      (Fase 2 ✔)
 │   └── alloy/                   # AlloyRecipe, AlloyInput, AlloyService                   (Fase 2 ✔)
 ├── thermal/                     # Fuel, FlameLevel, ForgeHeatState, HeatData, ThermalMath  (Fase 4)
-├── station/                     # blocos, block entities, menus das 10 estações          (Fase 3)
+├── station/                     # WorkpieceStationBlock/BlockEntity (peça sobre a estação),
+│                                #   AlloyStationBlock/BlockEntity/Menu                     (Fase 3 ✔)
 ├── minigame/                    # sessões, regras de pontuação, validação server-side    (Fase 5)
 ├── treatment/                   # Treatment, TreatmentValidator, resultados              (Fase 6)
 ├── craft/                       # acabamento: polimento, afiação, entalhes, runas        (Fase 7)

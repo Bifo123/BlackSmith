@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "LLL",
+    "PPP",
+    "P P"
+  ],
+  "result": {
+    "id": "forjasuprema:finishing_station",
+    "count": 1
+  }
+}

@@ -16,6 +16,7 @@ public final class ModCreativeTabs {
                     .title(Component.translatable("itemGroup." + ForjaSuprema.MOD_ID + ".main"))
                     .icon(() -> ModItems.SMITH_HAMMER.get().getDefaultInstance())
                     .displayItems((parameters, output) -> {
+                        ModItems.STATION_ITEMS.forEach(item -> output.accept(item.get()));
                         output.accept(ModItems.SMITH_HAMMER.get());
                         output.accept(ModItems.TIN_ORE.get());
                         output.accept(ModItems.RAW_TIN.get());

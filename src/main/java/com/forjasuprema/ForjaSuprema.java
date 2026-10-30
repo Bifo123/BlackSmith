@@ -3,7 +3,9 @@ package com.forjasuprema;
 import com.forjasuprema.command.ForjaCommands;
 import com.forjasuprema.compat.CompatManager;
 import com.forjasuprema.config.ForjaConfig;
+import com.forjasuprema.registry.ModBlockEntities;
 import com.forjasuprema.registry.ModBlocks;
+import com.forjasuprema.registry.ModMenus;
 import com.forjasuprema.registry.ModCreativeTabs;
 import com.forjasuprema.registry.ModItems;
 import com.forjasuprema.registry.ModRecipes;
@@ -32,6 +34,8 @@ public class ForjaSuprema {
         ModBlocks.BLOCKS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModCreativeTabs.TABS.register(modEventBus);
+        ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
+        ModMenus.MENUS.register(modEventBus);
         ModRecipes.TYPES.register(modEventBus);
         ModRecipes.SERIALIZERS.register(modEventBus);
 

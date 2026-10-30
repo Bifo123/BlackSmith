@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    " I ",
+    "PPP",
+    "P P"
+  ],
+  "result": {
+    "id": "forjasuprema:engraving_bench",
+    "count": 1
+  }
+}

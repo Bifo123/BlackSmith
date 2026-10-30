@@ -1,1 +1,11 @@
-{ "values": ["forjasuprema:tin_ore"] }
+{
+  "values": [
+    "forjasuprema:tin_ore",
+    "forjasuprema:blacksmith_forge",
+    "forjasuprema:blacksmith_anvil",
+    "forjasuprema:quench_tank",
+    "forjasuprema:heat_treatment_furnace",
+    "forjasuprema:sharpening_stone",
+    "forjasuprema:alloy_station"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:brick"
+    },
+    "K": {
+      "item": "minecraft:cauldron"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "BKB",
+    "III"
+  ],
+  "result": {
+    "id": "forjasuprema:alloy_station",
+    "count": 1
+  }
+}

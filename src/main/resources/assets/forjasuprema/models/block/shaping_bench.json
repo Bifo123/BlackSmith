@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "forjasuprema:block/shaping_bench_top",
+    "bottom": "forjasuprema:block/shaping_bench_top",
+    "side": "forjasuprema:block/shaping_bench_side"
+  }
+}

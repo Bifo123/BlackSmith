@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:brick"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    },
+    "C": {
+      "item": "minecraft:cobblestone"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "BFB",
+    "CCC"
+  ],
+  "result": {
+    "id": "forjasuprema:blacksmith_forge",
+    "count": 1
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "minecraft:flint"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "FFF",
+    "PPP",
+    "P P"
+  ],
+  "result": {
+    "id": "forjasuprema:polishing_station",
+    "count": 1
+  }
+}

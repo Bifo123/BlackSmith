@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "forjasuprema:block/quench_tank_top",
+    "bottom": "forjasuprema:block/quench_tank_top",
+    "side": "forjasuprema:block/quench_tank_side"
+  }
+}

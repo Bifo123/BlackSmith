@@ -9,7 +9,7 @@ O jogador começa como aprendiz e evolui até forjador lendário: aquece, martel
 |---|---|---|
 | 1 | Arquitetura e esqueleto do projeto | ✔ entregue |
 | 2 | Materiais e metalurgia básica | ✔ entregue |
-| 3 | Blocos e estações | pendente |
+| 3 | Blocos e estações | ✔ entregue (comportamento de cada estação vem nas fases seguintes) |
 | 4 | Temperatura e intensidade da chama | pendente |
 | 5 | Minigames | pendente |
 | 6 | Técnicas metalúrgicas | pendente |
@@ -46,6 +46,22 @@ Arquitetura completa: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 3. Segure um lingote de ferro e rode `/forjasuprema metal held` (deve indicar `forjasuprema:iron`).
 4. Pegue 3 lingotes de cobre e 1 de estanho e rode `/forjasuprema alloy`: devem virar 4 lingotes de bronze.
 5. Em mundo novo, procure minério de estanho entre y 0 e 64 e funda-o em uma fornalha.
+
+## O que existe hoje (Fase 3)
+
+As 10 estações existem como blocos craftáveis, com loot, ferramenta correta de mineração e texturas provisórias (`tools/gen_station_assets.py`):
+
+| Estação | Estado atual |
+|---|---|
+| Estação de Criação de Ligas | **Funcional**: interface com 4 entradas, 1 saída e botão "Fundir liga" (servidor valida e consome; usa as receitas da Fase 2). Sem exigência de calor até a Fase 4. |
+| Fornalha de Ferreiro, Bigorna, Bancada de Modelagem, Tanque de Têmpera, Forno de Tratamento Térmico, Estação de Polimento, Pedra de Amolar, Bancada de Gravação, Estação de Acabamento | **Apoiam uma peça**: clique com um item para colocar, mão vazia para recolher; a peça é desenhada sobre o bloco, salva no mundo, sincronizada no multiplayer e dropada ao quebrar. A função de cada estação (calor, martelamento, têmpera, polimento…) entra nas Fases 4–7. |
+
+### Testar a Fase 3
+
+1. Na aba criativa **Forja Suprema**, pegue as estações e coloque-as no mundo.
+2. Clique com um lingote em uma estação (ex.: Bigorna): ele aparece sobre o bloco. Clique com a mão vazia para pegá-lo de volta. Quebre a estação com uma peça: ela cai no chão.
+3. Abra a **Estação de Criação de Ligas**, coloque 3 lingotes de cobre e 1 de estanho nas entradas e clique em **Fundir liga**: 4 lingotes de bronze aparecem na saída. Feche, reabra e reinicie o mundo: o conteúdo permanece.
+4. Em modo sobrevivência, confira as receitas de crafting das estações no livro de receitas.
 
 ## Compilar e testar
 

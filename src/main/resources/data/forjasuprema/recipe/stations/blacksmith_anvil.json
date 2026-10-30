@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "X": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "pattern": [
+    "III",
+    " X ",
+    "III"
+  ],
+  "result": {
+    "id": "forjasuprema:blacksmith_anvil",
+    "count": 1
+  }
+}
