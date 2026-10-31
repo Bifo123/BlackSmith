@@ -18,7 +18,13 @@ jobs:
         with:
           gradle-version: 8.14.3
       - name: Build
-        run: gradle build --no-daemon
+        run: |
+          set +e
+          gradle build --no-daemon > build.log 2>&1
+          code=$?
+          # Publica os erros como anotacoes (o log bruto nem sempre e acessivel pela API).
+          grep -E "error:|FAILED|What went wrong|Execution failed" -A2 build.log | head -40 | while IFS= read -r line; do echo "::error::$line"; done
+          exit $code
       - uses: actions/upload-artifact@v4
         with:
           name: forjasuprema-jar
