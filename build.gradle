@@ -10,6 +10,7 @@ group = mod_group_id
 
 repositories {
     mavenLocal()
+    mavenCentral()
 }
 
 base {
@@ -55,6 +56,15 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 dependencies {
     // Create e outros mods entram aqui somente na Fase 10/11, como compileOnly/localRuntime,
     // para que o mod continue compilando e rodando sem eles.
+
+    // Testes unitarios da logica pura (pacotes sem dependencia do Minecraft).
+    testImplementation platform('org.junit:junit-bom:5.10.3')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

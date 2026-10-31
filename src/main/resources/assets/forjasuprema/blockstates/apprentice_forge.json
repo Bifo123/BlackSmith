@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "forjasuprema:block/apprentice_forge"
+    },
+    "lit=true": {
+      "model": "forjasuprema:block/apprentice_forge_lit"
+    }
+  }
+}

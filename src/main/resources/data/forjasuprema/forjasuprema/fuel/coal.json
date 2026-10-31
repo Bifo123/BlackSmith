@@ -1,0 +1,7 @@
+{
+  "item_tag": "forjasuprema:fuel/coal",
+  "intensity": 3,
+  "burn_time": 2400,
+  "efficiency": 1.0,
+  "max_temperature": 1550
+}

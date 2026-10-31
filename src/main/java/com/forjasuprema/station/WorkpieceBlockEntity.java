@@ -9,6 +9,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -21,7 +22,12 @@ public class WorkpieceBlockEntity extends BlockEntity {
     private ItemStack piece = ItemStack.EMPTY;
 
     public WorkpieceBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.WORKPIECE.get(), pos, state);
+        this(ModBlockEntities.WORKPIECE.get(), pos, state);
+    }
+
+    /** Usado por estacoes com comportamento proprio (ex.: forja), que registram o proprio tipo. */
+    protected WorkpieceBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     public ItemStack getPiece() {

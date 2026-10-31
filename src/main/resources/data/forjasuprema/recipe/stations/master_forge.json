@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "R": {
+      "item": "minecraft:blaze_rod"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "Z": {
+      "tag": "c:ingots/bronze"
+    },
+    "F": {
+      "item": "minecraft:blast_furnace"
+    }
+  },
+  "pattern": [
+    "RIR",
+    "ZFZ",
+    "III"
+  ],
+  "result": {
+    "id": "forjasuprema:master_forge",
+    "count": 1
+  }
+}

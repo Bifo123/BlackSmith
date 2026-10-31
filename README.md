@@ -10,7 +10,7 @@ O jogador começa como aprendiz e evolui até forjador lendário: aquece, martel
 | 1 | Arquitetura e esqueleto do projeto | ✔ entregue |
 | 2 | Materiais e metalurgia básica | ✔ entregue |
 | 3 | Blocos e estações | ✔ entregue (comportamento de cada estação vem nas fases seguintes) |
-| 4 | Temperatura e intensidade da chama | pendente |
+| 4 | Temperatura e intensidade da chama | ✔ entregue |
 | 5 | Minigames | pendente |
 | 6 | Técnicas metalúrgicas | pendente |
 | 7 | Artesanato e acabamento | pendente |
@@ -53,22 +53,59 @@ As 10 estações existem como blocos craftáveis, com loot, ferramenta correta d
 
 | Estação | Estado atual |
 |---|---|
-| Estação de Criação de Ligas | **Funcional**: interface com 4 entradas, 1 saída e botão "Fundir liga" (servidor valida e consome; usa as receitas da Fase 2). Sem exigência de calor até a Fase 4. |
-| Fornalha de Ferreiro, Bigorna, Bancada de Modelagem, Tanque de Têmpera, Forno de Tratamento Térmico, Estação de Polimento, Pedra de Amolar, Bancada de Gravação, Estação de Acabamento | **Apoiam uma peça**: clique com um item para colocar, mão vazia para recolher; a peça é desenhada sobre o bloco, salva no mundo, sincronizada no multiplayer e dropada ao quebrar. A função de cada estação (calor, martelamento, têmpera, polimento…) entra nas Fases 4–7. |
+| Estação de Criação de Ligas | **Funcional**: interface com 4 entradas, 1 saída e botão "Fundir liga" (servidor valida e consome; usa as receitas da Fase 2). Desde a Fase 4 é um cadinho: precisa estar **diretamente sobre uma forja acesa** que atinja a chama e a temperatura da receita. |
+| Bigorna, Bancada de Modelagem, Tanque de Têmpera, Forno de Tratamento Térmico, Estação de Polimento, Pedra de Amolar, Bancada de Gravação, Estação de Acabamento | **Apoiam uma peça**: clique com um item para colocar, mão vazia para recolher; a peça é desenhada sobre o bloco, salva no mundo, sincronizada no multiplayer e dropada ao quebrar. A função de cada estação (calor, martelamento, têmpera, polimento…) entra nas Fases 4–7. |
 
 ### Testar a Fase 3
 
 1. Na aba criativa **Forja Suprema**, pegue as estações e coloque-as no mundo.
 2. Clique com um lingote em uma estação (ex.: Bigorna): ele aparece sobre o bloco. Clique com a mão vazia para pegá-lo de volta. Quebre a estação com uma peça: ela cai no chão.
-3. Abra a **Estação de Criação de Ligas**, coloque 3 lingotes de cobre e 1 de estanho nas entradas e clique em **Fundir liga**: 4 lingotes de bronze aparecem na saída. Feche, reabra e reinicie o mundo: o conteúdo permanece.
+3. Abra a **Estação de Criação de Ligas** e coloque 3 lingotes de cobre e 1 de estanho nas entradas. Feche, reabra e reinicie o mundo: o conteúdo permanece. (Para fundir de verdade é preciso uma forja acesa embaixo; veja o teste da Fase 4. O comando `/forjasuprema alloy` continua sem exigir calor, só para depuração.)
 4. Em modo sobrevivência, confira as receitas de crafting das estações no livro de receitas.
+
+## O que existe hoje (Fase 4)
+
+**Sistema térmico completo, simulado só no servidor.**
+
+- **5 forjas** (Aprendiz, Ferreiro, Avançada, Mestre, Lendária), cada uma com teto de chama, bônus de chama da estrutura, teto de temperatura, retenção de calor e capacidade de combustível:
+
+  | Forja | Chama máx. | Bônus | Temp. máx. | Esfria (1000→100 °C) |
+  |---|---|---|---|---|
+  | Aprendiz | 2 | +0 | 900 °C | ~1 min |
+  | Ferreiro | 3 | +0 | 1250 °C | ~1,7 min |
+  | Avançada | 3 | +1 | 1400 °C | ~2,6 min |
+  | Mestre | 4 | +1 | 1600 °C | ~5 min |
+  | Lendária | 4 | +1 | 2100 °C | ~10 min |
+
+- **Combustíveis por datapack** (`forjasuprema:fuel`): intensidade, tempo de queima, eficiência térmica e temperatura máxima. Chama final = intensidade do combustível + bônus da forja, limitada pelo teto dela.
+
+  | Combustível | Intensidade | Queima | Eficiência | Temp. máx. |
+  |---|---|---|---|---|
+  | Graveto | 1 (fraca) | 10 s | 0,6 | 500 °C |
+  | Carvão vegetal | 2 (moderada) | 80 s | 0,9 | 1000 °C |
+  | Carvão mineral | 3 (forte) | 120 s | 1,0 | 1550 °C |
+  | Vara de blaze (especial) | 4 (intensa) | 240 s | 1,3 | 2000 °C |
+
+- **Peças aquecem na forja** e guardam a temperatura no item (esfriam sozinhas, sem custo de processamento). O tooltip mostra a temperatura e o estado: fria demais, pronta para forjar, superaquecida ou derretida. Acima da janela de forjamento a peça acumula **dano de queima** (guardado para a qualidade, Fase 8); ao passar do ponto de fusão ela vira **escória**. Cuidado: o estanho derrete a 232 °C, então vira escória quase na hora em uma forja quente.
+- **Regra fundamental**: `HeatRequirement` verifica a chama **antes** da temperatura. Chama fraca falha mesmo com a temperatura certa. A Estação de Ligas já usa essa regra; a têmpera e os demais tratamentos (Fase 6) usarão a mesma.
+- **Estação de Ligas sobre a forja**: bronze exige chama 3 e 1100 °C (forja de Ferreiro com carvão mineral); aço exige chama 4 e 1500 °C (forja de Mestre).
+
+### Testar a Fase 4
+
+1. Pegue uma **Forja de Ferreiro** e carvão mineral na aba criativa. Clique com o carvão na forja (abastece) e depois com um **isqueiro**: a forja acende (luz, fumaça e brasas).
+2. Clique na forja com a mão vazia (ou agachado) para ver `Forja | Chama | °C | Combustível`. Aguarde ~15 s: a temperatura sobe até 1250 °C.
+3. Clique com um **lingote de ferro**: ele fica sobre a forja. Retire com a mão vazia e passe o mouse no lingote: a temperatura aparece no tooltip e cai com o tempo. Na Forja de Ferreiro o ferro esquenta até 1250 °C, que é o limite da janela de forjamento dele, então não queima. Para ver o superaquecimento, repita na **Forja de Mestre** com carvão mineral (alvo 1550 °C): o ferro passa de 1250 °C e acumula dano de queima (aparece no tooltip) e, ao atingir 1538 °C, vira **escória**.
+4. Coloque a **Estação de Criação de Ligas diretamente sobre a forja acesa**, monte 3 cobre + 1 estanho e clique em **Fundir liga**: só funciona com a forja a 1100 °C ou mais. Com a forja fria, apagada ou de Aprendiz, aparece a mensagem de chama ou temperatura insuficiente e nada é consumido.
+5. Comandos: `/forjasuprema fuel list` e `/forjasuprema fuel info forjasuprema:coal`.
+6. Testes automáticos: `gradle test` (matemática térmica e regra de chama).
 
 ## Compilar e testar
 
 Requer JDK 21 e Gradle 8.8+.
 
 ```bash
-gradle build          # gera build/libs/forjasuprema-0.1.0.jar
+gradle build          # gera build/libs/forjasuprema-0.1.0.jar (roda os testes)
+gradle test           # só os testes unitários
 gradle runClient      # abre o Minecraft de desenvolvimento
 gradle runServer
 ```

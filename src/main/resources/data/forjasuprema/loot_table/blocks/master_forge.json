@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "forjasuprema:master_forge"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "forjasuprema:blocks/master_forge"
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "forjasuprema:block/master_forge"
+    },
+    "lit=true": {
+      "model": "forjasuprema:block/master_forge_lit"
+    }
+  }
+}

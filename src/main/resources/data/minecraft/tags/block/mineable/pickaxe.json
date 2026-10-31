@@ -1,7 +1,11 @@
 {
   "values": [
     "forjasuprema:tin_ore",
+    "forjasuprema:apprentice_forge",
     "forjasuprema:blacksmith_forge",
+    "forjasuprema:advanced_forge",
+    "forjasuprema:master_forge",
+    "forjasuprema:legendary_forge",
     "forjasuprema:blacksmith_anvil",
     "forjasuprema:quench_tank",
     "forjasuprema:heat_treatment_furnace",

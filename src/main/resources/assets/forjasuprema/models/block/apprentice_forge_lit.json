@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "forjasuprema:block/apprentice_forge_top_lit",
+    "bottom": "forjasuprema:block/apprentice_forge_top",
+    "side": "forjasuprema:block/apprentice_forge_side"
+  }
+}

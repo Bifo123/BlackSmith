@@ -4,6 +4,9 @@ import com.forjasuprema.metal.alloy.AlloyInput;
 import com.forjasuprema.metal.alloy.AlloyRecipe;
 import com.forjasuprema.metal.alloy.AlloyService;
 import com.forjasuprema.registry.ModBlockEntities;
+import com.forjasuprema.thermal.FlameLevel;
+import com.forjasuprema.thermal.HeatRequirement;
+import com.forjasuprema.thermal.HeatSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,14 +27,27 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Estacao de Criacao de Ligas: 4 slots de entrada e 1 de saida. A fusao e executada no servidor
- * pelo botao da interface, usando as mesmas receitas ({@code forjasuprema:alloying}) da Fase 2.
+ * pelo botao da interface, usando as receitas ({@code forjasuprema:alloying}) da Fase 2.
  *
- * <p>Ate a Fase 4 (sistema termico) a estacao nao exige chama nem temperatura.
+ * <p>A estacao e um cadinho: precisa estar <b>diretamente sobre uma fonte de calor</b> (uma forja
+ * acesa). A receita exige chama e temperatura minimas; se a forja nao as atingir, a liga falha
+ * antes de consumir qualquer item.
  */
 public class AlloyStationBlockEntity extends BlockEntity implements MenuProvider {
     public static final int INPUT_SLOTS = 4;
     public static final int OUTPUT_SLOT = 4;
     private static final String ITEMS_KEY = "Items";
+
+    /** Resultado de uma tentativa de fundir liga; {@code message} e mostrado ao jogador em caso de falha. */
+    public record AlloyOutcome(boolean success, Component message) {
+        static AlloyOutcome ok() {
+            return new AlloyOutcome(true, Component.empty());
+        }
+
+        static AlloyOutcome fail(Component message) {
+            return new AlloyOutcome(false, message);
+        }
+    }
 
     private final ItemStackHandler items = new ItemStackHandler(INPUT_SLOTS + 1) {
         @Override
@@ -53,14 +69,19 @@ public class AlloyStationBlockEntity extends BlockEntity implements MenuProvider
         return items;
     }
 
-    /**
-     * Tenta fundir uma liga com o conteudo dos slots de entrada.
-     *
-     * @return {@code true} se algum lote foi produzido
-     */
-    public boolean tryAlloy() {
+    /** Fonte de calor logo abaixo da estacao, se houver. */
+    @Nullable
+    private HeatSource findHeatSource() {
+        if (level == null) {
+            return null;
+        }
+        return level.getBlockEntity(worldPosition.below()) instanceof HeatSource source ? source : null;
+    }
+
+    /** Tenta fundir uma liga com o conteudo dos slots de entrada, respeitando as condicoes termicas. */
+    public AlloyOutcome tryAlloy() {
         if (level == null || level.isClientSide) {
-            return false;
+            return AlloyOutcome.fail(Component.empty());
         }
         List<ItemStack> inputs = new ArrayList<>(INPUT_SLOTS);
         for (int slot = 0; slot < INPUT_SLOTS; slot++) {
@@ -70,9 +91,29 @@ public class AlloyStationBlockEntity extends BlockEntity implements MenuProvider
 
         Optional<RecipeHolder<AlloyRecipe>> found = AlloyService.find(level, input);
         if (found.isEmpty()) {
-            return false;
+            return AlloyOutcome.fail(Component.translatable("commands.forjasuprema.alloy.none"));
         }
         AlloyRecipe recipe = found.get().value();
+
+        // Condicao termica: verificada antes de qualquer consumo, sem depender de nada que o jogador faca.
+        if (recipe.minFlame() > 0 || recipe.minTemperature() > 0) {
+            HeatSource source = findHeatSource();
+            if (source == null) {
+                return AlloyOutcome.fail(Component.translatable("message.forjasuprema.alloy.no_heat_source"));
+            }
+            HeatRequirement.Result heat = HeatRequirement.check(
+                    source.flameLevel(), source.temperature(), recipe.minFlame(), recipe.minTemperature());
+            if (heat == HeatRequirement.Result.INSUFFICIENT_FLAME) {
+                return AlloyOutcome.fail(Component.translatable("message.forjasuprema.alloy.flame_too_weak",
+                        Component.translatable(FlameLevel.translationKey(recipe.minFlame())),
+                        Component.translatable(FlameLevel.translationKey(source.flameLevel()))));
+            }
+            if (heat == HeatRequirement.Result.TOO_COLD) {
+                return AlloyOutcome.fail(Component.translatable("message.forjasuprema.alloy.too_cold",
+                        recipe.minTemperature(), Math.round(source.temperature())));
+            }
+        }
+
         ItemStack result = recipe.result();
         ItemStack output = items.getStackInSlot(OUTPUT_SLOT);
 
@@ -82,13 +123,13 @@ public class AlloyStationBlockEntity extends BlockEntity implements MenuProvider
         } else if (ItemStack.isSameItemSameComponents(output, result)) {
             room = output.getMaxStackSize() - output.getCount();
         } else {
-            return false;
+            return AlloyOutcome.fail(Component.translatable("message.forjasuprema.alloy.output_blocked"));
         }
 
         int batches = Math.min(recipe.maxBatches(input), AlloyService.MAX_BATCHES);
         batches = Math.min(batches, room / Math.max(1, result.getCount()));
         if (batches <= 0) {
-            return false;
+            return AlloyOutcome.fail(Component.translatable("message.forjasuprema.alloy.output_blocked"));
         }
 
         for (AlloyRecipe.Entry entry : recipe.inputs()) {
@@ -110,7 +151,7 @@ public class AlloyStationBlockEntity extends BlockEntity implements MenuProvider
             grown.grow(produced);
             items.setStackInSlot(OUTPUT_SLOT, grown);
         }
-        return true;
+        return AlloyOutcome.ok();
     }
 
     /** Dropa todo o conteudo no mundo (usado quando o bloco e quebrado). */

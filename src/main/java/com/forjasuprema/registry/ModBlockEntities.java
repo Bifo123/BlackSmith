@@ -2,6 +2,7 @@ package com.forjasuprema.registry;
 
 import com.forjasuprema.ForjaSuprema;
 import com.forjasuprema.station.AlloyStationBlockEntity;
+import com.forjasuprema.station.ForgeBlockEntity;
 import com.forjasuprema.station.WorkpieceBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
@@ -18,6 +19,12 @@ public final class ModBlockEntities {
             BLOCK_ENTITIES.register("workpiece_station", () -> BlockEntityType.Builder.of(
                     WorkpieceBlockEntity::new,
                     ModBlocks.WORKPIECE_STATIONS.stream().map(DeferredBlock::get).toArray(Block[]::new)
+            ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ForgeBlockEntity>> FORGE =
+            BLOCK_ENTITIES.register("forge", () -> BlockEntityType.Builder.of(
+                    ForgeBlockEntity::new,
+                    ModBlocks.FORGES.stream().map(DeferredBlock::get).toArray(Block[]::new)
             ).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AlloyStationBlockEntity>> ALLOY_STATION =

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "S": {
+      "item": "minecraft:nether_star"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "F": {
+      "item": "minecraft:blast_furnace"
+    }
+  },
+  "pattern": [
+    " S ",
+    "NFN",
+    "DDD"
+  ],
+  "result": {
+    "id": "forjasuprema:legendary_forge",
+    "count": 1
+  }
+}

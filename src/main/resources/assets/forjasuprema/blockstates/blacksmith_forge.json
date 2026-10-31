@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "lit=false": {
       "model": "forjasuprema:block/blacksmith_forge"
+    },
+    "lit=true": {
+      "model": "forjasuprema:block/blacksmith_forge_lit"
     }
   }
 }

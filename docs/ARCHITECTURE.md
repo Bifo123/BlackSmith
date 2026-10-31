@@ -25,9 +25,13 @@ com.forjasuprema
 ├── command/                     # /forjasuprema: inspeção e depuração (permissão 2)
 ├── metal/                       # Metal (record+codec), MetalLookup                      (Fase 2 ✔)
 │   └── alloy/                   # AlloyRecipe, AlloyInput, AlloyService                   (Fase 2 ✔)
-├── thermal/                     # Fuel, FlameLevel, ForgeHeatState, HeatData, ThermalMath  (Fase 4)
+├── thermal/                     # lógica pura: ThermalMath, PieceThermal, FlameLevel, ForgeTier,
+│                                #   HeatRequirement (sem Minecraft, testada com JUnit);
+│                                #   com Minecraft: Fuel/FuelLookup (datapack), HeatData (componente
+│                                #   do item), HeatSource (interface), HeatEvents            (Fase 4 ✔)
 ├── station/                     # WorkpieceStationBlock/BlockEntity (peça sobre a estação),
 │                                #   AlloyStationBlock/BlockEntity/Menu                     (Fase 3 ✔)
+│                                #   ForgeBlock/ForgeBlockEntity (chama, temperatura, peça)   (Fase 4 ✔)
 ├── minigame/                    # sessões, regras de pontuação, validação server-side    (Fase 5)
 ├── treatment/                   # Treatment, TreatmentValidator, resultados              (Fase 6)
 ├── craft/                       # acabamento: polimento, afiação, entalhes, runas        (Fase 7)
@@ -66,6 +70,8 @@ progression ──► quality, metal          compat.* ──► (qualquer pacot
 Prevenção de duplicação: peça em processo é *movida* (não copiada) para o block entity/sessão; a sessão guarda o ID e é invalidada se o jogador sair, morrer ou o bloco for quebrado (o item volta ao inventário/dropa).
 
 ## 4. Processos térmicos
+
+> **Implementado na Fase 4.** As fórmulas abaixo estão em `thermal/ThermalMath` e `thermal/PieceThermal` (taxas por tick, aproximação exponencial `T += (alvo - T) * (1 - e^-taxa)`). Valores reais (tiers, combustíveis, taxas) estão no README e nos JSONs; este capítulo descreve o modelo. A fonte de calor é abstraída por `HeatSource`, então a Estação de Ligas, os tratamentos (Fase 6) e as máquinas do Create (Fase 10) consultam a mesma interface. A progressão fica fixada em teste: bronze (chama 3, 1100 °C) na forja de Ferreiro; aço (chama 4, 1500 °C) só na forja de Mestre.
 
 ### 4.1 Níveis de chama
 

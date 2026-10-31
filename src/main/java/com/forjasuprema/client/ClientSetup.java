@@ -18,6 +18,7 @@ public final class ClientSetup {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.WORKPIECE.get(), WorkpieceRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.FORGE.get(), WorkpieceRenderer::new);
     }
 
     @SubscribeEvent

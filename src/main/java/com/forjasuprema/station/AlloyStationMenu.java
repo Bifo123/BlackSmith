@@ -3,7 +3,6 @@ package com.forjasuprema.station;
 import com.forjasuprema.registry.ModBlocks;
 import com.forjasuprema.registry.ModMenus;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -68,8 +67,11 @@ public class AlloyStationMenu extends AbstractContainerMenu {
         if (id != BUTTON_ALLOY) {
             return false;
         }
-        if (!player.level().isClientSide && !station.tryAlloy()) {
-            player.displayClientMessage(Component.translatable("commands.forjasuprema.alloy.none"), true);
+        if (!player.level().isClientSide) {
+            AlloyStationBlockEntity.AlloyOutcome outcome = station.tryAlloy();
+            if (!outcome.success()) {
+                player.displayClientMessage(outcome.message(), true);
+            }
         }
         return true;
     }

@@ -24,9 +24,15 @@ public final class ModItems {
     public static final DeferredItem<Item> TIN_INGOT = ITEMS.registerSimpleItem("tin_ingot");
     public static final DeferredItem<Item> BRONZE_INGOT = ITEMS.registerSimpleItem("bronze_ingot");
     public static final DeferredItem<Item> STEEL_INGOT = ITEMS.registerSimpleItem("steel_ingot");
+    /** Resto de uma peca que passou do ponto de fusao na forja. */
+    public static final DeferredItem<Item> SLAG = ITEMS.registerSimpleItem("slag");
 
     static {
+        station("apprentice_forge", ModBlocks.APPRENTICE_FORGE);
         station("blacksmith_forge", ModBlocks.BLACKSMITH_FORGE);
+        station("advanced_forge", ModBlocks.ADVANCED_FORGE);
+        station("master_forge", ModBlocks.MASTER_FORGE);
+        station("legendary_forge", ModBlocks.LEGENDARY_FORGE);
         station("blacksmith_anvil", ModBlocks.BLACKSMITH_ANVIL);
         station("shaping_bench", ModBlocks.SHAPING_BENCH);
         station("quench_tank", ModBlocks.QUENCH_TANK);

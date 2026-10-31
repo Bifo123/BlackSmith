@@ -84,6 +84,7 @@ def main():
     write_png(ROOT / "item/bronze_ingot.png", ingot((192, 138, 62)))
     write_png(ROOT / "item/steel_ingot.png", ingot((125, 138, 150)))
     write_png(ROOT / "item/raw_tin.png", raw_chunk((150, 165, 175), 7))
+    write_png(ROOT / "item/slag.png", raw_chunk((62, 56, 60), 3))
     write_png(ROOT / "block/tin_ore.png", ore((200, 212, 220), 11))
     print("texturas geradas em", ROOT)
 

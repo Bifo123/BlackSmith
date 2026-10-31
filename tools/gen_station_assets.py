@@ -18,7 +18,11 @@ MOD = "forjasuprema"
 
 # id -> (tipo de material, cor base, cor de destaque)
 STATIONS = {
+    "apprentice_forge": ("stone", (110, 100, 95), (200, 110, 40)),
     "blacksmith_forge": ("stone", (120, 70, 60), (255, 140, 40)),
+    "advanced_forge": ("stone", (95, 90, 100), (255, 150, 50)),
+    "master_forge": ("stone", (80, 80, 90), (255, 190, 70)),
+    "legendary_forge": ("stone", (60, 50, 70), (255, 230, 120)),
     "blacksmith_anvil": ("iron", (70, 72, 78), (150, 155, 165)),
     "shaping_bench": ("wood", (140, 100, 60), (90, 90, 95)),
     "quench_tank": ("iron", (75, 80, 90), (50, 110, 200)),
@@ -30,9 +34,18 @@ STATIONS = {
     "finishing_station": ("wood", (135, 95, 65), (160, 60, 50)),
 }
 
+# Forjas: tem estado aceso/apagado (modelo e textura de topo proprios para "lit").
+FORGES = {"apprentice_forge", "blacksmith_forge", "advanced_forge", "master_forge", "legendary_forge"}
+
 # id -> (padrao, chave de ingredientes). Ingredientes: item ("minecraft:x") ou tag ("#c:x").
+# Receitas PROVISORIAS. Atencao: o aco so e produzido na forja de Mestre, entao as receitas das
+# forjas avancada e de mestre nao podem exigir aco (usam ferro e bronze).
 RECIPES = {
+    "apprentice_forge": (["CCC", "CFC", "CCC"], {"C": "minecraft:cobblestone", "F": "minecraft:furnace"}),
     "blacksmith_forge": (["BBB", "BFB", "CCC"], {"B": "minecraft:brick", "F": "minecraft:furnace", "C": "minecraft:cobblestone"}),
+    "advanced_forge": (["ZZZ", "ZFZ", "III"], {"Z": "#c:ingots/bronze", "F": "minecraft:blast_furnace", "I": "#c:ingots/iron"}),
+    "master_forge": (["RIR", "ZFZ", "III"], {"R": "minecraft:blaze_rod", "I": "#c:ingots/iron", "Z": "#c:ingots/bronze", "F": "minecraft:blast_furnace"}),
+    "legendary_forge": ([" S ", "NFN", "DDD"], {"S": "minecraft:nether_star", "N": "minecraft:netherite_ingot", "D": "minecraft:diamond_block", "F": "minecraft:blast_furnace"}),
     "blacksmith_anvil": (["III", " X ", "III"], {"I": "#c:ingots/iron", "X": "minecraft:iron_block"}),
     "shaping_bench": (["PPP", "L L", "L L"], {"P": "#minecraft:planks", "L": "#minecraft:logs"}),
     "quench_tank": (["I I", "IWI", "III"], {"I": "#c:ingots/iron", "W": "minecraft:water_bucket"}),
@@ -99,6 +112,23 @@ def main():
             }],
             "random_sequence": f"{MOD}:blocks/{name}",
         })
+
+        if name in FORGES:
+            # Variante acesa: topo mais brilhante, modelo e blockstate com a propriedade "lit".
+            bright = tuple(min(255, int(c * 1.3)) for c in accent)
+            write_png(TEXTURES / f"block/{name}_top_lit.png", texture(base, bright, index * 2 + 101, True))
+            dump(ASSETS / f"models/block/{name}_lit.json", {
+                "parent": "minecraft:block/cube_bottom_top",
+                "textures": {
+                    "top": f"{MOD}:block/{name}_top_lit",
+                    "bottom": f"{MOD}:block/{name}_top",
+                    "side": f"{MOD}:block/{name}_side",
+                },
+            })
+            dump(ASSETS / f"blockstates/{name}.json", {"variants": {
+                "lit=false": {"model": f"{MOD}:block/{name}"},
+                "lit=true": {"model": f"{MOD}:block/{name}_lit"},
+            }})
 
     for name, (pattern, key) in RECIPES.items():
         dump(DATA / f"{MOD}/recipe/stations/{name}.json", {

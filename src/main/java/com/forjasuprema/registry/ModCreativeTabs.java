@@ -23,6 +23,7 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.TIN_INGOT.get());
                         output.accept(ModItems.BRONZE_INGOT.get());
                         output.accept(ModItems.STEEL_INGOT.get());
+                        output.accept(ModItems.SLAG.get());
                     })
                     .build());
 

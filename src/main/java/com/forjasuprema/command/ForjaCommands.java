@@ -6,6 +6,7 @@ import com.forjasuprema.metal.alloy.AlloyInput;
 import com.forjasuprema.metal.alloy.AlloyRecipe;
 import com.forjasuprema.metal.alloy.AlloyService;
 import com.forjasuprema.registry.ModRegistries;
+import com.forjasuprema.thermal.Fuel;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -36,6 +37,10 @@ public final class ForjaCommands {
             SharedSuggestionProvider.suggestResource(
                     context.getSource().registryAccess().registryOrThrow(ModRegistries.METAL).keySet(), builder);
 
+    private static final SuggestionProvider<CommandSourceStack> FUEL_IDS = (context, builder) ->
+            SharedSuggestionProvider.suggestResource(
+                    context.getSource().registryAccess().registryOrThrow(ModRegistries.FUEL).keySet(), builder);
+
     private ForjaCommands() {
     }
 
@@ -51,6 +56,12 @@ public final class ForjaCommands {
                                 .then(Commands.argument("id", idArgument)
                                         .suggests(METAL_IDS)
                                         .executes(ForjaCommands::metalInfo))))
+                .then(Commands.literal("fuel")
+                        .then(Commands.literal("list").executes(ForjaCommands::listFuels))
+                        .then(Commands.literal("info")
+                                .then(Commands.argument("id", idArgument)
+                                        .suggests(FUEL_IDS)
+                                        .executes(ForjaCommands::fuelInfo))))
                 .then(Commands.literal("alloy").executes(ForjaCommands::alloy)));
     }
 
@@ -118,6 +129,35 @@ public final class ForjaCommands {
         context.getSource().sendSuccess(() -> Component.translatable("commands.forjasuprema.alloy.ok",
                 result.getHoverName(), result.getCount() * batches, batches), false);
         return batches;
+    }
+
+    private static int listFuels(CommandContext<CommandSourceStack> context) {
+        Registry<Fuel> registry = context.getSource().registryAccess().registryOrThrow(ModRegistries.FUEL);
+        String ids = registry.keySet().stream()
+                .map(ResourceLocation::toString)
+                .sorted()
+                .collect(Collectors.joining(", "));
+        context.getSource().sendSuccess(
+                () -> Component.translatable("commands.forjasuprema.fuel.list", registry.size(), ids), false);
+        return registry.size();
+    }
+
+    private static int fuelInfo(CommandContext<CommandSourceStack> context) {
+        ResourceLocation id = ResourceLocationArgument.getId(context, "id");
+        Registry<Fuel> registry = context.getSource().registryAccess().registryOrThrow(ModRegistries.FUEL);
+        Fuel fuel = registry.get(id);
+        if (fuel == null) {
+            context.getSource().sendFailure(Component.translatable("commands.forjasuprema.fuel.unknown", id.toString()));
+            return 0;
+        }
+        context.getSource().sendSuccess(() -> Component.translatable("commands.forjasuprema.fuel.info",
+                id.toString(),
+                fuel.intensity(),
+                fuel.burnTime(),
+                String.format(Locale.ROOT, "%.2f", fuel.efficiency()),
+                fuel.maxTemperature(),
+                fuel.energy()), false);
+        return 1;
     }
 
     private static String fmt(float value) {

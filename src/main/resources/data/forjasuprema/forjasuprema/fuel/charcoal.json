@@ -1,0 +1,7 @@
+{
+  "item_tag": "forjasuprema:fuel/charcoal",
+  "intensity": 2,
+  "burn_time": 1600,
+  "efficiency": 0.9,
+  "max_temperature": 1000
+}

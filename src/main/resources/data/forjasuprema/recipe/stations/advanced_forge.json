@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "Z": {
+      "tag": "c:ingots/bronze"
+    },
+    "F": {
+      "item": "minecraft:blast_furnace"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "pattern": [
+    "ZZZ",
+    "ZFZ",
+    "III"
+  ],
+  "result": {
+    "id": "forjasuprema:advanced_forge",
+    "count": 1
+  }
+}
