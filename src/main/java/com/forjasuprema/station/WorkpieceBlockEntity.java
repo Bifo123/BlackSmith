@@ -1,5 +1,6 @@
 package com.forjasuprema.station;
 
+import com.forjasuprema.minigame.PieceHolder;
 import com.forjasuprema.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -16,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * Guarda a peca que esta sobre uma estacao (forja, bigorna, bancada...). As fases seguintes
  * (temperatura, minigames, tratamentos) operam sobre a peca guardada aqui.
  */
-public class WorkpieceBlockEntity extends BlockEntity {
+public class WorkpieceBlockEntity extends BlockEntity implements PieceHolder {
     private static final String PIECE_KEY = "Piece";
 
     private ItemStack piece = ItemStack.EMPTY;

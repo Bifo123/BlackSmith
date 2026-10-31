@@ -2,6 +2,7 @@ package com.forjasuprema.registry;
 
 import com.forjasuprema.ForjaSuprema;
 import com.forjasuprema.metal.alloy.AlloyRecipe;
+import com.forjasuprema.minigame.ForgingRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -20,6 +21,12 @@ public final class ModRecipes {
 
     public static final DeferredHolder<RecipeSerializer<?>, AlloyRecipe.Serializer> ALLOYING_SERIALIZER =
             SERIALIZERS.register("alloying", AlloyRecipe.Serializer::new);
+
+    public static final DeferredHolder<RecipeType<?>, RecipeType<ForgingRecipe>> FORGING = TYPES.register("forging",
+            () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(ForjaSuprema.MOD_ID, "forging")));
+
+    public static final DeferredHolder<RecipeSerializer<?>, ForgingRecipe.Serializer> FORGING_SERIALIZER =
+            SERIALIZERS.register("forging", ForgingRecipe.Serializer::new);
 
     private ModRecipes() {
     }

@@ -1,0 +1,8 @@
+{
+  "type": "forjasuprema:forging",
+  "input": { "tag": "forjasuprema:forgeable" },
+  "result": { "id": "forjasuprema:metal_nails", "count": 4 },
+  "shape": "nails",
+  "strikes": 8,
+  "complexity": 0.7
+}

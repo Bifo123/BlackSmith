@@ -5,6 +5,7 @@ import com.forjasuprema.metal.MetalLookup;
 import com.forjasuprema.registry.ModBlockEntities;
 import com.forjasuprema.registry.ModDataComponents;
 import com.forjasuprema.registry.ModItems;
+import com.forjasuprema.thermal.Boostable;
 import com.forjasuprema.thermal.FlameLevel;
 import com.forjasuprema.thermal.ForgeTier;
 import com.forjasuprema.thermal.Fuel;
@@ -36,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
  * quente ou com peca fora do ambiente); em repouso nao tem custo. A temperatura da peca e mantida aqui
  * enquanto ela esta na forja e gravada no item (componente {@code heat}) quando ela e retirada.
  */
-public class ForgeBlockEntity extends WorkpieceBlockEntity implements HeatSource {
+public class ForgeBlockEntity extends WorkpieceBlockEntity implements HeatSource, Boostable {
     public enum IgniteResult { OK, ALREADY_LIT, NO_FUEL }
 
     private static final double SNAP_DISTANCE = 0.5;
@@ -56,6 +57,10 @@ public class ForgeBlockEntity extends WorkpieceBlockEntity implements HeatSource
     // Estado da peca apoiada (persistido).
     private double pieceTemperature = ThermalMath.AMBIENT;
     private double pieceBurn;
+
+    // Impulso temporario dos foles (nao persistido: dura segundos).
+    private double boostFactor = 1.0;
+    private int boostTicks;
 
     // Cache nao persistido: metal da peca.
     @Nullable
@@ -84,6 +89,21 @@ public class ForgeBlockEntity extends WorkpieceBlockEntity implements HeatSource
     @Override
     public double temperature() {
         return temperature;
+    }
+
+    @Override
+    public boolean isLit() {
+        return lit;
+    }
+
+    /** Foles: acelera o aquecimento da forja por um tempo. Nao eleva o teto de temperatura nem a chama. */
+    @Override
+    public void boost(double rateFactor, int ticks) {
+        if (!lit || ticks <= 0) {
+            return;
+        }
+        boostFactor = Math.max(1.0, rateFactor);
+        boostTicks = Math.max(boostTicks, ticks);
     }
 
     // ---------------------------------------------------------------- combustivel e ignicao
@@ -186,6 +206,9 @@ public class ForgeBlockEntity extends WorkpieceBlockEntity implements HeatSource
         if (lit) {
             target = ThermalMath.targetTemperature(fuelMaxTemperature, tier);
             rate = ThermalMath.forgeHeatRate(flame, fuelEfficiency);
+            if (boostTicks > 0) {
+                rate *= boostFactor;
+            }
         } else {
             target = ThermalMath.AMBIENT;
             rate = tier.coolingRate();
@@ -193,6 +216,13 @@ public class ForgeBlockEntity extends WorkpieceBlockEntity implements HeatSource
         temperature = ThermalMath.approach(temperature, target, rate);
         if (Math.abs(target - temperature) < SNAP_DISTANCE) {
             temperature = target;
+        }
+        if (boostTicks > 0) {
+            boostTicks--;
+            if (boostTicks == 0 || !lit) {
+                boostTicks = 0;
+                boostFactor = 1.0;
+            }
         }
 
         if (hasPiece()) {

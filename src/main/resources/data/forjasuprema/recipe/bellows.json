@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": { "L": { "item": "minecraft:leather" }, "P": { "tag": "minecraft:planks" }, "I": { "tag": "c:ingots/iron" } },
+  "pattern": ["PPI", "LLL", "PPI"],
+  "result": { "id": "forjasuprema:bellows", "count": 1 }
+}

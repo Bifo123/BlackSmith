@@ -11,7 +11,7 @@ O jogador começa como aprendiz e evolui até forjador lendário: aquece, martel
 | 2 | Materiais e metalurgia básica | ✔ entregue |
 | 3 | Blocos e estações | ✔ entregue (comportamento de cada estação vem nas fases seguintes) |
 | 4 | Temperatura e intensidade da chama | ✔ entregue |
-| 5 | Minigames | pendente |
+| 5 | Minigames | ✔ entregue |
 | 6 | Técnicas metalúrgicas | pendente |
 | 7 | Artesanato e acabamento | pendente |
 | 8 | Qualidade e equipamentos | pendente |
@@ -98,6 +98,24 @@ As 10 estações existem como blocos craftáveis, com loot, ferramenta correta d
 4. Coloque a **Estação de Criação de Ligas diretamente sobre a forja acesa**, monte 3 cobre + 1 estanho e clique em **Fundir liga**: só funciona com a forja a 1100 °C ou mais. Com a forja fria, apagada ou de Aprendiz, aparece a mensagem de chama ou temperatura insuficiente e nada é consumido.
 5. Comandos: `/forjasuprema fuel list` e `/forjasuprema fuel info forjasuprema:coal`.
 6. Testes automáticos: `gradle test` (matemática térmica e regra de chama).
+
+## O que existe hoje (Fase 5)
+
+- **Martelamento na bigorna**: com o **Martelo de Ferreiro** na mão, clique numa **Bigorna** que tenha uma peça apoiada. Abre um minigame direcional: um marcador vai e volta na barra; aperte a seta indicada (setas/WASD) quando ele estiver na zona. Agachado, o martelo troca o formato (chapa, barra, pregos).
+- **Foles**: clique numa forja **acesa** com os **Foles**; minigame de ritmo (Espaço/clique). A nota acelera o aquecimento por alguns segundos, sem elevar o teto de temperatura nem de chama.
+- **Receita de forjamento** (`forjasuprema:forging`, datapack): `input`, `result`, `shape`, `strikes`, `complexity`. O resultado grava o metal (`metal_part`) e as notas por etapa (`stage_scores`: modelagem e controle térmico), exibidas no tooltip. A classificação de qualidade usará essas notas na Fase 8.
+- **Dificuldade** depende da maleabilidade, do tier do metal, da complexidade da peça e da qualidade do martelo (bônus de nível entra na Fase 9). A **temperatura** da peça reduz a precisão: abaixo da janela de forjamento a eficiência cai; muito fria (200 °C abaixo do mínimo) a sessão é cancelada.
+- **Servidor decide tudo**: o cliente só envia "bati no instante X". O servidor exige índice na ordem, intervalo mínimo entre golpes, instante dentro de ±8 ticks do relógio dele, distância, ferramenta e peça inalteradas, e expira a sessão. Uma sessão por jogador. `ProcessingMode.AUTOMATED` (Create, Fase 10) nunca abre minigames.
+- **Limite conhecido**: um bot que leia o padrão e calcule o instante certo não se distingue de um jogador hábil por regras de servidor.
+
+### Testar a Fase 5
+
+1. Aqueça um lingote de ferro na Forja de Ferreiro (como na Fase 4) até ~900 °C ou mais e retire-o.
+2. Apoie o lingote na **Bigorna** (clique com o lingote). Com o martelo, clique na bigorna: abre o minigame. Acerte os golpes; ao terminar, a peça vira uma **Chapa de Ferro** (tooltip mostra "Modelagem: N%").
+3. Repita agachado com o martelo para trocar para barra ou pregos. Com o lingote frio, a bigorna recusa ("Fria demais").
+4. Numa forja acesa, use os **Foles**: com boa nota a temperatura sobe mais rápido (compare o tempo para atingir o alvo).
+5. Feche a tela no meio (Esc) ou afaste-se: a sessão é cancelada e a peça permanece intacta.
+6. Testes: `gradle test` (matemática de golpes, dificuldade, gerador de padrão, sessão).
 
 ## Compilar e testar
 

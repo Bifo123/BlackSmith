@@ -1,6 +1,8 @@
 package com.forjasuprema.registry;
 
 import com.forjasuprema.ForjaSuprema;
+import com.forjasuprema.metal.MetalPartItem;
+import com.forjasuprema.minigame.SmithHammerItem;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.world.item.BlockItem;
@@ -15,9 +17,18 @@ public final class ModItems {
     /** Itens de bloco das estacoes, na ordem em que aparecem na aba criativa. */
     public static final List<DeferredItem<BlockItem>> STATION_ITEMS = new ArrayList<>();
 
-    /** Martelo de ferreiro. Na Fase 5 passa a ser a ferramenta do minigame de martelamento. */
-    public static final DeferredItem<Item> SMITH_HAMMER =
-            ITEMS.registerSimpleItem("smith_hammer", new Item.Properties().durability(250));
+    /** Martelo de ferreiro: ferramenta do minigame de martelamento (qualidade 0.3 reduz um pouco a dificuldade). */
+    public static final DeferredItem<SmithHammerItem> SMITH_HAMMER =
+            ITEMS.registerItem("smith_hammer", properties -> new SmithHammerItem(properties.durability(250), 0.3F));
+
+    /** Foles: usados numa forja acesa, abrem o minigame que acelera o aquecimento. */
+    public static final DeferredItem<Item> BELLOWS =
+            ITEMS.registerItem("bellows", properties -> new Item(properties.durability(120).stacksTo(1)));
+
+    /** Pecas forjadas na bigorna. O metal fica no componente {@code metal_part}. */
+    public static final DeferredItem<MetalPartItem> METAL_PLATE = ITEMS.registerItem("metal_plate", MetalPartItem::new);
+    public static final DeferredItem<MetalPartItem> METAL_ROD = ITEMS.registerItem("metal_rod", MetalPartItem::new);
+    public static final DeferredItem<MetalPartItem> METAL_NAILS = ITEMS.registerItem("metal_nails", MetalPartItem::new);
 
     public static final DeferredItem<BlockItem> TIN_ORE = ITEMS.registerSimpleBlockItem("tin_ore", ModBlocks.TIN_ORE);
     public static final DeferredItem<Item> RAW_TIN = ITEMS.registerSimpleItem("raw_tin");

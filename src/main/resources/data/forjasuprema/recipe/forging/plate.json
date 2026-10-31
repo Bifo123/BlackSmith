@@ -1,0 +1,8 @@
+{
+  "type": "forjasuprema:forging",
+  "input": { "tag": "forjasuprema:forgeable" },
+  "result": { "id": "forjasuprema:metal_plate", "count": 1 },
+  "shape": "plate",
+  "strikes": 5,
+  "complexity": 0.3
+}

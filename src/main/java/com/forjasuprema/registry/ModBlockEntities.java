@@ -18,7 +18,7 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WorkpieceBlockEntity>> WORKPIECE =
             BLOCK_ENTITIES.register("workpiece_station", () -> BlockEntityType.Builder.of(
                     WorkpieceBlockEntity::new,
-                    ModBlocks.WORKPIECE_STATIONS.stream().map(DeferredBlock::get).toArray(Block[]::new)
+                    ModBlocks.WORKPIECE_STATIONS.stream().map(block -> (Block) block.get()).toArray(Block[]::new)
             ).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ForgeBlockEntity>> FORGE =

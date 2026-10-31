@@ -140,8 +140,8 @@ Faixas de `Q` → classificação:
 
 ## 6. Minigames e segurança em multiplayer
 
-- Servidor abre uma `ForgeSession` (jogador, peça, receita, estação, tick inicial) e envia ao cliente os parâmetros (padrão de golpes, janelas).
-- Cliente envia eventos `(tipoDeGolpe, tickRelativo)`; o servidor **recalcula** o score comparando com o padrão e com a temperatura real da peça naquele tick.
+- Implementado na Fase 5: `MinigameManager` (servidor) mantém uma `StrikeSession` (classe pura e testada) por jogador e envia ao cliente semente, golpes, período e largura da zona; o cliente reconstrói o padrão da semente.
+- Cliente envia `(índice, instante em centésimos de tick, direção)`; o servidor **recalcula** o score comparando com o padrão e com a temperatura real da peça naquele tick.
 - Limites de taxa, sessão única por jogador, timeout, cancelamento seguro (peça devolvida).
 - Se o cliente mentir, só perde pontuação: nada que ele envia é aceito como resultado.
 

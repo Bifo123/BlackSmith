@@ -1,19 +1,39 @@
 package com.forjasuprema.registry;
 
 import com.forjasuprema.ForjaSuprema;
+import com.forjasuprema.quality.StageScores;
 import com.forjasuprema.thermal.HeatData;
+import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-/** Componentes de dados do mod. Qualidade e atributos extras entram na Fase 8. */
+/** Componentes de dados do mod. A classificacao de qualidade e os atributos extras entram na Fase 8. */
 public final class ModDataComponents {
     public static final DeferredRegister.DataComponents DATA_COMPONENTS =
             DeferredRegister.createDataComponents(ForjaSuprema.MOD_ID);
 
+    /** Estado termico da peca (temperatura, instante e queima). */
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<HeatData>> HEAT =
             DATA_COMPONENTS.registerComponentType("heat",
                     builder -> builder.persistent(HeatData.CODEC).networkSynchronized(HeatData.STREAM_CODEC));
+
+    /** Metal de uma peca bruta (chapa, barra, pregos): define nome e cor. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> METAL_PART =
+            DATA_COMPONENTS.registerComponentType("metal_part",
+                    builder -> builder.persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC));
+
+    /** Notas por etapa de fabricacao, gravadas pelos minigames. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<StageScores>> STAGE_SCORES =
+            DATA_COMPONENTS.registerComponentType("stage_scores",
+                    builder -> builder.persistent(StageScores.CODEC).networkSynchronized(StageScores.STREAM_CODEC));
+
+    /** Formato selecionado no martelo de ferreiro. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> HAMMER_SHAPE =
+            DATA_COMPONENTS.registerComponentType("hammer_shape",
+                    builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
 
     private ModDataComponents() {
     }

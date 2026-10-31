@@ -2,6 +2,7 @@ package com.forjasuprema.registry;
 
 import com.forjasuprema.ForjaSuprema;
 import com.forjasuprema.station.AlloyStationBlock;
+import com.forjasuprema.station.AnvilStationBlock;
 import com.forjasuprema.station.ForgeBlock;
 import com.forjasuprema.station.WorkpieceStationBlock;
 import com.forjasuprema.thermal.ForgeTier;
@@ -21,7 +22,7 @@ public final class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(ForjaSuprema.MOD_ID);
 
     /** Estacoes que apenas apoiam uma peca por cima (sem comportamento proprio ate as proximas fases). */
-    public static final List<DeferredBlock<WorkpieceStationBlock>> WORKPIECE_STATIONS = new ArrayList<>();
+    public static final List<DeferredBlock<? extends WorkpieceStationBlock>> WORKPIECE_STATIONS = new ArrayList<>();
     /** As cinco categorias de forja, da mais simples a lendaria. */
     public static final List<DeferredBlock<ForgeBlock>> FORGES = new ArrayList<>();
 
@@ -34,7 +35,8 @@ public final class ModBlocks {
     public static final DeferredBlock<ForgeBlock> MASTER_FORGE = forge("master_forge", ForgeTier.MASTER);
     public static final DeferredBlock<ForgeBlock> LEGENDARY_FORGE = forge("legendary_forge", ForgeTier.LEGENDARY);
 
-    public static final DeferredBlock<WorkpieceStationBlock> BLACKSMITH_ANVIL = workpiece("blacksmith_anvil", iron());
+    /** Bigorna: com o martelo na mao inicia o minigame de martelamento. */
+    public static final DeferredBlock<AnvilStationBlock> BLACKSMITH_ANVIL = anvil("blacksmith_anvil", iron());
     public static final DeferredBlock<WorkpieceStationBlock> SHAPING_BENCH = workpiece("shaping_bench", wood());
     public static final DeferredBlock<WorkpieceStationBlock> QUENCH_TANK = workpiece("quench_tank", iron());
     public static final DeferredBlock<WorkpieceStationBlock> HEAT_TREATMENT_FURNACE =
@@ -59,6 +61,12 @@ public final class ModBlocks {
 
     private static DeferredBlock<WorkpieceStationBlock> workpiece(String name, BlockBehaviour.Properties properties) {
         DeferredBlock<WorkpieceStationBlock> block = BLOCKS.registerBlock(name, WorkpieceStationBlock::new, properties);
+        WORKPIECE_STATIONS.add(block);
+        return block;
+    }
+
+    private static DeferredBlock<AnvilStationBlock> anvil(String name, BlockBehaviour.Properties properties) {
+        DeferredBlock<AnvilStationBlock> block = BLOCKS.registerBlock(name, AnvilStationBlock::new, properties);
         WORKPIECE_STATIONS.add(block);
         return block;
     }

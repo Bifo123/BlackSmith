@@ -1,7 +1,10 @@
 package com.forjasuprema.station;
 
 import com.forjasuprema.metal.MetalLookup;
+import com.forjasuprema.minigame.MinigameManager;
+import com.forjasuprema.minigame.ProcessingMode;
 import com.forjasuprema.registry.ModBlockEntities;
+import com.forjasuprema.registry.ModItems;
 import com.forjasuprema.thermal.ForgeTier;
 import com.forjasuprema.thermal.FuelLookup;
 import com.mojang.serialization.Codec;
@@ -12,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -120,6 +124,14 @@ public class ForgeBlock extends WorkpieceStationBlock {
                     case ALREADY_LIT -> player.displayClientMessage(
                             Component.translatable("message.forjasuprema.forge.already_lit"), true);
                 }
+            }
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        }
+
+        if (stack.is(ModItems.BELLOWS.get())) {
+            if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+                MinigameManager.startBellows(serverPlayer, (ServerLevel) level, pos, forge, stack, hand,
+                        ProcessingMode.MANUAL);
             }
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
