@@ -22,6 +22,7 @@ public final class ClientSetup {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(ModBlockEntities.WORKPIECE.get(), WorkpieceRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.FORGE.get(), WorkpieceRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.HEAT_TREATMENT.get(), WorkpieceRenderer::new);
     }
 
     @SubscribeEvent
@@ -29,7 +30,7 @@ public final class ClientSetup {
         event.register((stack, tintIndex) -> tintIndex == 0
                         ? 0xFF000000 | MetalColors.of(stack.get(ModDataComponents.METAL_PART.get()))
                         : -1,
-                ModItems.METAL_PLATE.get(), ModItems.METAL_ROD.get(), ModItems.METAL_NAILS.get());
+                ModItems.METAL_PLATE.get(), ModItems.METAL_ROD.get(), ModItems.METAL_NAILS.get(), ModItems.WELDED_BILLET.get());
     }
 
     @SubscribeEvent

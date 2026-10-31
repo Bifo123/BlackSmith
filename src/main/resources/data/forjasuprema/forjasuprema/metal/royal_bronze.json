@@ -1,0 +1,13 @@
+{
+  "item_tag": "c:ingots/royal_bronze",
+  "hardness": 0.55,
+  "strength": 0.60,
+  "malleability": 0.70,
+  "hardenability": 0.30,
+  "melt_temperature": 1200,
+  "work_temp_min": 600,
+  "work_temp_max": 1000,
+  "tier": 2,
+  "treatments": ["forjasuprema:annealing"],
+  "properties": ["forjasuprema:corrosion_resistant"]
+}

@@ -12,7 +12,7 @@ O jogador começa como aprendiz e evolui até forjador lendário: aquece, martel
 | 3 | Blocos e estações | ✔ entregue (comportamento de cada estação vem nas fases seguintes) |
 | 4 | Temperatura e intensidade da chama | ✔ entregue |
 | 5 | Minigames | ✔ entregue |
-| 6 | Técnicas metalúrgicas | pendente |
+| 6 | Técnicas metalúrgicas | ✔ entregue |
 | 7 | Artesanato e acabamento | pendente |
 | 8 | Qualidade e equipamentos | pendente |
 | 9 | Progressão | pendente |
@@ -116,6 +116,32 @@ As 10 estações existem como blocos craftáveis, com loot, ferramenta correta d
 4. Numa forja acesa, use os **Foles**: com boa nota a temperatura sobe mais rápido (compare o tempo para atingir o alvo).
 5. Feche a tela no meio (Esc) ou afaste-se: a sessão é cancelada e a peça permanece intacta.
 6. Testes: `gradle test` (matemática de golpes, dificuldade, gerador de padrão, sessão).
+
+## O que existe hoje (Fase 6)
+
+Os tratamentos são **determinísticos** (sem sorte): a nota vem de quão bem as condições foram mantidas, e **chama ou temperatura insuficientes fazem o tratamento falhar, sempre**, antes de qualquer consideração de desempenho. Cada metal declara em `treatments` o que aceita (bronze só recozimento e têmpera, cobre só recozimento, etc.).
+
+| Técnica | Onde | Exigência | Efeito |
+|---|---|---|---|
+| **Têmpera** | Tanque de Têmpera (com água) | peça com temperatura ≥ mínima de forjamento do metal | + dureza (até +50%), + fragilidade; melhor logo acima do mínimo e dentro da janela, pior se superaquecida |
+| **Recozimento** | Forno de Tratamento sobre forja acesa | chama ≥ 2, forno entre 80% do mínimo e (fusão − 50 °C); manter 30 s | zera dureza e fragilidade |
+| **Revenimento** | idem | peça já temperada; chama ≥ 1; forno **suave**, entre 30% e 60% do mínimo (ex.: aço 255–510 °C, alcançável com galhos); 20 s | corta ~70% da fragilidade, perde ~15% da dureza extra |
+| **Cementação** | idem | chama ≥ 3, 1 carvão no forno, 60 s | + dureza em metais de baixa temperabilidade (ferro) |
+| **Endurecimento superficial** | idem | chama ≥ 3; 15 s | + dureza moderada, quase sem fragilidade |
+| **Soldagem** | Bigorna: peça apoiada + clique com outra do mesmo metal | **ambas** ≥ 92% do topo da janela de forjamento | gera *Lingote Soldado* (forja 2 chapas/barras/8 pregos) com nota de solda |
+
+- **Forno**: agachado + mão vazia alterna o tratamento; carvão abastece carbono; uma peça de metal inicia. Se a forja sai da faixa, o tempo **não conta**; se o tempo total passa de 3× o necessário, o processo falha e a peça fica como estava. A nota do tratamento é a fração do tempo em condição correta.
+- Forjar na bigorna (peça trabalhada a quente) **apaga** o endurecimento anterior, mas preserva as notas das etapas (solda etc.).
+- **Ligas avançadas** (datapack): *Aço de Damasco* (2 aço + 1 ferro, chama 4 e 1500 °C: só Forja de Mestre ou superior) e *Bronze Real* (3 bronze + 1 ouro, chama 3 e 1100 °C).
+- Os efeitos aparecem no tooltip (dureza extra, fragilidade, tratamentos, notas). A conversão em atributos de equipamento acontece na Fase 8.
+
+### Testar a Fase 6
+
+1. **Têmpera**: aqueça um lingote de aço (ou ferro) acima de 850/900 °C, vá ao Tanque de Têmpera com um balde de água (clique para encher) e clique com a peça. Veja "Dureza extra" e "Fragilidade" no tooltip. Com a peça fria: "precisa de pelo menos … °C" e nada acontece.
+2. **Revenimento**: coloque o **Forno de Tratamento** sobre uma Forja de Aprendiz abastecida com **galhos** (alvo 500 °C), agachado alterne para *Revenimento*, e clique com a peça temperada: o tempo corre só enquanto o forno está entre 255 e 510 °C. Com chama insuficiente ou forno fora da faixa, a mensagem diz o requisito. Sem têmpera prévia, é recusado.
+3. **Recozimento**: com carvão vegetal (chama 2), alterne para *Recozimento*; ao final dureza e fragilidade voltam a zero.
+4. **Soldagem**: apoie um lingote de ferro quente (≥ 1150 °C) na bigorna e clique com outro lingote de ferro quente: vira *Lingote Soldado*.
+5. `gradle test` roda as regras de tratamento e de solda.
 
 ## Compilar e testar
 

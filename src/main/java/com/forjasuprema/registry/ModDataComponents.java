@@ -3,6 +3,8 @@ package com.forjasuprema.registry;
 import com.forjasuprema.ForjaSuprema;
 import com.forjasuprema.quality.StageScores;
 import com.forjasuprema.thermal.HeatData;
+import com.forjasuprema.treatment.TreatmentCodecs;
+import com.forjasuprema.treatment.TreatmentState;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -34,6 +36,11 @@ public final class ModDataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> HAMMER_SHAPE =
             DATA_COMPONENTS.registerComponentType("hammer_shape",
                     builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
+
+    /** Estado de tratamento termico (dureza, fragilidade, tratamentos aplicados). */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<TreatmentState>> TREATMENT =
+            DATA_COMPONENTS.registerComponentType("treatment",
+                    builder -> builder.persistent(TreatmentCodecs.CODEC).networkSynchronized(TreatmentCodecs.STREAM_CODEC));
 
     private ModDataComponents() {
     }

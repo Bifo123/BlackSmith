@@ -28,6 +28,8 @@ public final class ModItems {
     /** Pecas forjadas na bigorna. O metal fica no componente {@code metal_part}. */
     public static final DeferredItem<MetalPartItem> METAL_PLATE = ITEMS.registerItem("metal_plate", MetalPartItem::new);
     public static final DeferredItem<MetalPartItem> METAL_ROD = ITEMS.registerItem("metal_rod", MetalPartItem::new);
+    /** Duas pecas do mesmo metal soldadas por forjamento. */
+    public static final DeferredItem<MetalPartItem> WELDED_BILLET = ITEMS.registerItem("welded_billet", MetalPartItem::new);
     public static final DeferredItem<MetalPartItem> METAL_NAILS = ITEMS.registerItem("metal_nails", MetalPartItem::new);
 
     public static final DeferredItem<BlockItem> TIN_ORE = ITEMS.registerSimpleBlockItem("tin_ore", ModBlocks.TIN_ORE);
@@ -35,6 +37,9 @@ public final class ModItems {
     public static final DeferredItem<Item> TIN_INGOT = ITEMS.registerSimpleItem("tin_ingot");
     public static final DeferredItem<Item> BRONZE_INGOT = ITEMS.registerSimpleItem("bronze_ingot");
     public static final DeferredItem<Item> STEEL_INGOT = ITEMS.registerSimpleItem("steel_ingot");
+    /** Ligas avancadas (Fase 6). */
+    public static final DeferredItem<Item> DAMASCUS_STEEL_INGOT = ITEMS.registerSimpleItem("damascus_steel_ingot");
+    public static final DeferredItem<Item> ROYAL_BRONZE_INGOT = ITEMS.registerSimpleItem("royal_bronze_ingot");
     /** Resto de uma peca que passou do ponto de fusao na forja. */
     public static final DeferredItem<Item> SLAG = ITEMS.registerSimpleItem("slag");
 

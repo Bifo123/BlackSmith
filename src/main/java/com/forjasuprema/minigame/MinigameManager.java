@@ -291,10 +291,13 @@ public final class MinigameManager {
         ItemStack result = active.recipe.assemble(new SingleRecipeInput(active.pieceRef), level.registryAccess());
         result.set(ModDataComponents.METAL_PART.get(), active.metalId);
         result.set(ModDataComponents.HEAT.get(), new HeatData(temp, now, burn));
-        Map<String, Float> scores = new LinkedHashMap<>();
-        scores.put(StageScores.MODELING, (float) score);
-        scores.put(StageScores.THERMAL, (float) Math.max(0.0, 1.0 - burn));
-        result.set(ModDataComponents.STAGE_SCORES.get(), new StageScores(scores));
+        // Notas de etapas anteriores (soldagem, tratamentos) sao preservadas; trabalhar o metal a quente
+        // apaga o endurecimento anterior (a peca volta ao estado recozido).
+        StageScores previous = active.pieceRef.getOrDefault(ModDataComponents.STAGE_SCORES.get(), StageScores.empty());
+        result.set(ModDataComponents.STAGE_SCORES.get(), previous
+                .with(StageScores.MODELING, (float) score)
+                .with(StageScores.THERMAL, (float) Math.max(0.0, 1.0 - burn)));
+        result.remove(ModDataComponents.TREATMENT.get());
 
         station.setPiece(result);
         level.playSound(null, active.pos, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, 0.7F, 1.1F);

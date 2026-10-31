@@ -1,0 +1,10 @@
+{
+  "type": "forjasuprema:alloying",
+  "inputs": [
+    { "ingredient": { "tag": "c:ingots/bronze" }, "count": 3 },
+    { "ingredient": { "tag": "c:ingots/gold" }, "count": 1 }
+  ],
+  "result": { "id": "forjasuprema:royal_bronze_ingot", "count": 4 },
+  "min_flame": 3,
+  "min_temperature": 1100
+}

@@ -11,7 +11,9 @@ public final class MetalColors {
             "tin", 0xD9DDE0,
             "bronze", 0xB08D57,
             "steel", 0x8A9BA8,
-            "gold", 0xFFD83D);
+            "gold", 0xFFD83D,
+            "damascus_steel", 0x6E7890,
+            "royal_bronze", 0xD6AA46);
 
     private MetalColors() {
     }

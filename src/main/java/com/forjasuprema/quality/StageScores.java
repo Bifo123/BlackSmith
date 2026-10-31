@@ -17,6 +17,8 @@ public record StageScores(Map<String, Float> scores) {
     public static final String MODELING = "modeling";
     /** Controle termico: 1 menos a queima acumulada por superaquecimento. */
     public static final String THERMAL = "thermal";
+    /** Qualidade da soldagem por forjamento. */
+    public static final String WELD = "weld";
 
     private static final int MAX_ENTRIES = 32;
 
@@ -27,6 +29,17 @@ public record StageScores(Map<String, Float> scores) {
 
     public StageScores {
         scores = Map.copyOf(scores);
+    }
+
+    /** Copia com a nota de uma etapa definida (ou substituida). */
+    public StageScores with(String stage, float score) {
+        Map<String, Float> copy = new LinkedHashMap<>(scores);
+        copy.put(stage, Math.max(0.0F, Math.min(1.0F, score)));
+        return new StageScores(copy);
+    }
+
+    public static StageScores empty() {
+        return new StageScores(Map.of());
     }
 
     private static void write(ByteBuf buf, StageScores value) {

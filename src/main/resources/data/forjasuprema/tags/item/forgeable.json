@@ -3,6 +3,8 @@
     "#c:ingots",
     "#c:ingots/tin",
     "#c:ingots/bronze",
-    "#c:ingots/steel"
+    "#c:ingots/steel",
+    "#c:ingots/damascus_steel",
+    "#c:ingots/royal_bronze"
   ]
 }

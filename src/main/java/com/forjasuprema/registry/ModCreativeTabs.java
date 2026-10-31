@@ -25,11 +25,13 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.TIN_INGOT.get());
                         output.accept(ModItems.BRONZE_INGOT.get());
                         output.accept(ModItems.STEEL_INGOT.get());
+                        output.accept(ModItems.DAMASCUS_STEEL_INGOT.get());
+                        output.accept(ModItems.ROYAL_BRONZE_INGOT.get());
                         output.accept(ModItems.SLAG.get());
                         // Pecas forjadas: uma de cada formato para cada metal registrado (so existe com mundo carregado).
                         parameters.holders().lookup(ModRegistries.METAL).ifPresent(metals ->
                                 metals.listElementIds().forEach(key -> {
-                                    for (var part : java.util.List.of(ModItems.METAL_PLATE, ModItems.METAL_ROD, ModItems.METAL_NAILS)) {
+                                    for (var part : java.util.List.of(ModItems.METAL_PLATE, ModItems.METAL_ROD, ModItems.METAL_NAILS, ModItems.WELDED_BILLET)) {
                                         ItemStack stack = new ItemStack(part.get());
                                         stack.set(ModDataComponents.METAL_PART.get(), key.location());
                                         output.accept(stack);

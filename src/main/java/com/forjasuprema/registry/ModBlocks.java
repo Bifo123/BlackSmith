@@ -4,6 +4,8 @@ import com.forjasuprema.ForjaSuprema;
 import com.forjasuprema.station.AlloyStationBlock;
 import com.forjasuprema.station.AnvilStationBlock;
 import com.forjasuprema.station.ForgeBlock;
+import com.forjasuprema.station.HeatTreatmentFurnaceBlock;
+import com.forjasuprema.station.QuenchTankBlock;
 import com.forjasuprema.station.WorkpieceStationBlock;
 import com.forjasuprema.thermal.ForgeTier;
 import java.util.ArrayList;
@@ -38,9 +40,12 @@ public final class ModBlocks {
     /** Bigorna: com o martelo na mao inicia o minigame de martelamento. */
     public static final DeferredBlock<AnvilStationBlock> BLACKSMITH_ANVIL = anvil("blacksmith_anvil", iron());
     public static final DeferredBlock<WorkpieceStationBlock> SHAPING_BENCH = workpiece("shaping_bench", wood());
-    public static final DeferredBlock<WorkpieceStationBlock> QUENCH_TANK = workpiece("quench_tank", iron());
-    public static final DeferredBlock<WorkpieceStationBlock> HEAT_TREATMENT_FURNACE =
-            workpiece("heat_treatment_furnace", stone());
+    /** Tanque de tempera: encha com agua e clique com uma peca quente de metal. */
+    public static final DeferredBlock<QuenchTankBlock> QUENCH_TANK =
+            BLOCKS.registerBlock("quench_tank", QuenchTankBlock::new, iron());
+    /** Forno de tratamento termico: usado sobre uma forja acesa. */
+    public static final DeferredBlock<HeatTreatmentFurnaceBlock> HEAT_TREATMENT_FURNACE =
+            BLOCKS.registerBlock("heat_treatment_furnace", HeatTreatmentFurnaceBlock::new, stone());
     public static final DeferredBlock<WorkpieceStationBlock> POLISHING_STATION = workpiece("polishing_station", wood());
     public static final DeferredBlock<WorkpieceStationBlock> SHARPENING_STONE = workpiece("sharpening_stone", stone());
     public static final DeferredBlock<WorkpieceStationBlock> ENGRAVING_BENCH = workpiece("engraving_bench", wood());

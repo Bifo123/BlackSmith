@@ -1,0 +1,17 @@
+{
+  "item_tag": "c:ingots/damascus_steel",
+  "hardness": 0.88,
+  "strength": 0.85,
+  "malleability": 0.40,
+  "hardenability": 0.95,
+  "melt_temperature": 1500,
+  "work_temp_min": 850,
+  "work_temp_max": 1200,
+  "tier": 3,
+  "treatments": [
+    "forjasuprema:annealing",
+    "forjasuprema:quench",
+    "forjasuprema:tempering",
+    "forjasuprema:surface_hardening"
+  ]
+}

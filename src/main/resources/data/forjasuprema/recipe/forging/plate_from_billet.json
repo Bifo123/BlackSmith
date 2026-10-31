@@ -1,0 +1,13 @@
+{
+  "type": "forjasuprema:forging",
+  "input": {
+    "item": "forjasuprema:welded_billet"
+  },
+  "result": {
+    "id": "forjasuprema:metal_plate",
+    "count": 2
+  },
+  "shape": "plate",
+  "strikes": 7,
+  "complexity": 0.4
+}
