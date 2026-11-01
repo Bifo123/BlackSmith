@@ -18,6 +18,20 @@ public final class MetalColors {
     private MetalColors() {
     }
 
+    /** Cor das runas (tingimento do icone). */
+    public static int ofRune(ResourceLocation rune) {
+        if (rune == null) {
+            return 0x9090FF;
+        }
+        return switch (rune.getPath()) {
+            case "keen" -> 0xE0E0FF;
+            case "swift" -> 0x60FFB0;
+            case "warding" -> 0x6090FF;
+            case "flame" -> 0xFF7030;
+            default -> of(rune);
+        };
+    }
+
     public static int of(ResourceLocation metal) {
         if (metal == null) {
             return 0xB0B0B0;

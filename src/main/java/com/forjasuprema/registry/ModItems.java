@@ -1,7 +1,10 @@
 package com.forjasuprema.registry;
 
 import com.forjasuprema.ForjaSuprema;
+import com.forjasuprema.finish.FinishToolItem;
+import com.forjasuprema.finish.RuneItem;
 import com.forjasuprema.metal.MetalPartItem;
+import com.forjasuprema.minigame.MinigameKind;
 import com.forjasuprema.minigame.SmithHammerItem;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,16 @@ public final class ModItems {
     /** Foles: usados numa forja acesa, abrem o minigame que acelera o aquecimento. */
     public static final DeferredItem<Item> BELLOWS =
             ITEMS.registerItem("bellows", properties -> new Item(properties.durability(120).stacksTo(1)));
+
+    /** Ferramentas de acabamento (Fase 7). */
+    public static final DeferredItem<FinishToolItem> POLISHING_CLOTH = ITEMS.registerItem("polishing_cloth",
+            properties -> new FinishToolItem(properties.durability(120), MinigameKind.POLISHING, 0.2F));
+    public static final DeferredItem<FinishToolItem> METAL_FILE = ITEMS.registerItem("metal_file",
+            properties -> new FinishToolItem(properties.durability(160), MinigameKind.SHARPENING, 0.2F));
+    public static final DeferredItem<FinishToolItem> ENGRAVING_CHISEL = ITEMS.registerItem("engraving_chisel",
+            properties -> new FinishToolItem(properties.durability(140), MinigameKind.ENGRAVING, 0.2F));
+    /** Runa: o tipo vem do componente {@code rune}. */
+    public static final DeferredItem<RuneItem> RUNE = ITEMS.registerItem("rune", RuneItem::new);
 
     /** Pecas forjadas na bigorna. O metal fica no componente {@code metal_part}. */
     public static final DeferredItem<MetalPartItem> METAL_PLATE = ITEMS.registerItem("metal_plate", MetalPartItem::new);

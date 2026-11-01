@@ -2,6 +2,8 @@ package com.forjasuprema.client;
 
 import com.forjasuprema.ForjaSuprema;
 import com.forjasuprema.quality.StageScores;
+import com.forjasuprema.finish.FinishState;
+import com.forjasuprema.finish.RuneItem;
 import com.forjasuprema.registry.ModDataComponents;
 import com.forjasuprema.treatment.TreatmentState;
 import net.minecraft.ChatFormatting;
@@ -31,6 +33,24 @@ public final class StageTooltip {
                                 .map(id -> Component.translatable("treatment.forjasuprema." + id).getString())
                                 .collect(java.util.stream.Collectors.joining(" > "))).withStyle(ChatFormatting.GRAY));
             }
+        }
+        FinishState finish = event.getItemStack().get(ModDataComponents.FINISH.get());
+        if (finish != null && !finish.isUntouched()) {
+            if (finish.polish() > 0.0) {
+                event.getToolTip().add(Component.translatable("tooltip.forjasuprema.finish.polish",
+                        Math.round(finish.polish() * 100)).withStyle(ChatFormatting.WHITE));
+            }
+            if (finish.sharpness() > 0.0) {
+                event.getToolTip().add(Component.translatable("tooltip.forjasuprema.finish.sharpness",
+                        Math.round(finish.sharpness() * 100)).withStyle(ChatFormatting.WHITE));
+            }
+            if (!finish.engravings().isEmpty()) {
+                event.getToolTip().add(Component.translatable("tooltip.forjasuprema.finish.engravings",
+                        finish.runes().size(), finish.engravings().size()).withStyle(ChatFormatting.LIGHT_PURPLE));
+            }
+            finish.runes().forEach(mark -> event.getToolTip().add(Component.translatable("tooltip.forjasuprema.finish.rune",
+                    RuneItem.runeName(net.minecraft.resources.ResourceLocation.parse(mark.id())),
+                    Math.round(mark.power() * 100)).withStyle(ChatFormatting.LIGHT_PURPLE)));
         }
         StageScores scores = event.getItemStack().get(ModDataComponents.STAGE_SCORES.get());
         if (scores == null) {

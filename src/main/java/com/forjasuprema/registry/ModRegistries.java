@@ -1,6 +1,7 @@
 package com.forjasuprema.registry;
 
 import com.forjasuprema.ForjaSuprema;
+import com.forjasuprema.finish.Rune;
 import com.forjasuprema.metal.Metal;
 import com.forjasuprema.thermal.Fuel;
 import net.minecraft.core.Registry;
@@ -12,6 +13,7 @@ import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 public final class ModRegistries {
     public static final ResourceKey<Registry<Metal>> METAL = key("metal");
     public static final ResourceKey<Registry<Fuel>> FUEL = key("fuel");
+    public static final ResourceKey<Registry<Rune>> RUNE = key("rune");
 
     private ModRegistries() {
     }
@@ -24,5 +26,6 @@ public final class ModRegistries {
         // O mesmo codec e usado para sincronizar os dados com o cliente.
         event.dataPackRegistry(METAL, Metal.CODEC, Metal.CODEC);
         event.dataPackRegistry(FUEL, Fuel.CODEC, Fuel.CODEC);
+        event.dataPackRegistry(RUNE, Rune.CODEC, Rune.CODEC);
     }
 }

@@ -64,4 +64,14 @@ class MinigameDifficultyTest {
         assertTrue(bellows.zoneHalfWidth() > hammer.zoneHalfWidth());
         assertTrue(bellows.periodTicks() > hammer.periodTicks());
     }
+
+    @Test
+    void finishingGetsHarderFromPolishingToEngraving() {
+        var polish = MinigameDifficulty.forFinishing(MinigameKind.POLISHING, 2, 0.0, 0);
+        var sharpen = MinigameDifficulty.forFinishing(MinigameKind.SHARPENING, 2, 0.0, 0);
+        var engrave = MinigameDifficulty.forFinishing(MinigameKind.ENGRAVING, 2, 0.0, 0);
+        assertTrue(polish.difficulty() < sharpen.difficulty());
+        assertTrue(sharpen.difficulty() < engrave.difficulty());
+        assertTrue(MinigameDifficulty.forFinishing(MinigameKind.ENGRAVING, 4, 0.0, 0).difficulty() > engrave.difficulty());
+    }
 }

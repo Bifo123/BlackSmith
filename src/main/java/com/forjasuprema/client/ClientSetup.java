@@ -34,6 +34,14 @@ public final class ClientSetup {
     }
 
     @SubscribeEvent
+    public static void registerRuneColors(RegisterColorHandlersEvent.Item event) {
+        event.register((stack, tintIndex) -> tintIndex == 0
+                        ? 0xFF000000 | MetalColors.ofRune(stack.get(ModDataComponents.RUNE.get()))
+                        : -1,
+                ModItems.RUNE.get());
+    }
+
+    @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.ALLOY_STATION.get(), AlloyStationScreen::new);
     }

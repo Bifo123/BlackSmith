@@ -103,6 +103,8 @@ public final class TreatmentService {
         ItemStack result = piece.copyWithCount(1);
         TreatmentState next = TreatmentRules.apply(kind, stateOf(piece), metal.hardenability(), quality);
         result.set(ModDataComponents.TREATMENT.get(), next);
+        // Aquecer forma carepa: o acabamento (polimento, afiacao, gravacoes) precisa ser refeito.
+        result.remove(ModDataComponents.FINISH.get());
         StageScores scores = piece.getOrDefault(ModDataComponents.STAGE_SCORES.get(), StageScores.empty());
         result.set(ModDataComponents.STAGE_SCORES.get(), scores.with(kind.id(), (float) quality));
         return result;

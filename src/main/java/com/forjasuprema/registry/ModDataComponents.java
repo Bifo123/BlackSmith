@@ -1,6 +1,8 @@
 package com.forjasuprema.registry;
 
 import com.forjasuprema.ForjaSuprema;
+import com.forjasuprema.finish.FinishCodecs;
+import com.forjasuprema.finish.FinishState;
 import com.forjasuprema.quality.StageScores;
 import com.forjasuprema.thermal.HeatData;
 import com.forjasuprema.treatment.TreatmentCodecs;
@@ -41,6 +43,16 @@ public final class ModDataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<TreatmentState>> TREATMENT =
             DATA_COMPONENTS.registerComponentType("treatment",
                     builder -> builder.persistent(TreatmentCodecs.CODEC).networkSynchronized(TreatmentCodecs.STREAM_CODEC));
+
+    /** Acabamento (polimento, afiacao, gravacoes e runas). */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<FinishState>> FINISH =
+            DATA_COMPONENTS.registerComponentType("finish",
+                    builder -> builder.persistent(FinishCodecs.CODEC).networkSynchronized(FinishCodecs.STREAM_CODEC));
+
+    /** Qual runa (id no registro {@code forjasuprema:rune}) este item de runa representa. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> RUNE =
+            DATA_COMPONENTS.registerComponentType("rune",
+                    builder -> builder.persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC));
 
     private ModDataComponents() {
     }

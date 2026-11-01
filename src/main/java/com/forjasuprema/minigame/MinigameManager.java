@@ -1,5 +1,8 @@
 package com.forjasuprema.minigame;
 
+import com.forjasuprema.finish.FinishRules;
+import com.forjasuprema.finish.FinishState;
+import com.forjasuprema.finish.FinishToolItem;
 import com.forjasuprema.metal.Metal;
 import com.forjasuprema.metal.MetalLookup;
 import com.forjasuprema.network.CancelMinigamePayload;
@@ -13,6 +16,7 @@ import com.forjasuprema.registry.ModRecipes;
 import com.forjasuprema.thermal.Boostable;
 import com.forjasuprema.thermal.HeatData;
 import com.forjasuprema.thermal.ThermalMath;
+import com.forjasuprema.treatment.TreatmentState;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -154,6 +158,53 @@ public final class MinigameManager {
         return true;
     }
 
+    /** Quantidade de golpes de cada minigame de acabamento. */
+    private static int finishStrikes(MinigameKind kind) {
+        return kind == MinigameKind.ENGRAVING ? 8 : 6;
+    }
+
+    private static boolean isFinishing(MinigameKind kind) {
+        return kind == MinigameKind.POLISHING || kind == MinigameKind.SHARPENING || kind == MinigameKind.ENGRAVING;
+    }
+
+    /**
+     * Inicia polimento, afiacao ou gravacao da peca apoiada na bancada. A peca precisa ser uma parte forjada,
+     * estar fria e cumprir as exigencias de {@link FinishRules}; nada disso depende do desempenho no minigame.
+     */
+    public static boolean startFinishing(ServerPlayer player, ServerLevel level, BlockPos pos, PieceHolder station,
+                                         ItemStack tool, InteractionHand hand, MinigameKind kind, ProcessingMode mode) {
+        if (!mode.allowsMinigames() || !isFinishing(kind) || SESSIONS.containsKey(player.getUUID())) {
+            return false;
+        }
+        ItemStack piece = station.getPiece();
+        Optional<Holder.Reference<Metal>> found = MetalLookup.find(level.registryAccess(), piece);
+        if (found.isEmpty() || piece.get(ModDataComponents.METAL_PART.get()) == null) {
+            player.displayClientMessage(Component.translatable("message.forjasuprema.finish.needs_part"), true);
+            return false;
+        }
+        Metal metal = found.get().value();
+        FinishState state = piece.getOrDefault(ModDataComponents.FINISH.get(), FinishState.NONE);
+        double temperature = pieceTemperature(piece, level.getGameTime());
+        FinishRules.Check check = kind == MinigameKind.ENGRAVING
+                ? FinishRules.checkEngraving(state, metal.tier(), temperature)
+                : FinishRules.checkSurfaceWork(temperature);
+        if (check != FinishRules.Check.OK) {
+            player.displayClientMessage(Component.translatable(
+                    "message.forjasuprema.finish." + check.name().toLowerCase(java.util.Locale.ROOT),
+                    Math.round(FinishRules.MAX_WORK_TEMPERATURE), Math.round(temperature),
+                    Math.round(FinishRules.MIN_POLISH_TO_ENGRAVE * 100), FinishRules.engravingSlots(metal.tier())), true);
+            return false;
+        }
+        float toolQuality = tool.getItem() instanceof FinishToolItem finishTool ? finishTool.quality() : 0.0F;
+        MinigameDifficulty.Params params = MinigameDifficulty.forFinishing(kind, metal.tier(), toolQuality, PLAYER_LEVEL);
+        StrikeSession session = new StrikeSession(kind, level.getRandom().nextLong(), finishStrikes(kind), params,
+                level.getGameTime());
+        SESSIONS.put(player.getUUID(), new Active(session, level.dimension(), pos, hand, tool.getItem(), piece,
+                null, found.get().key().location(), metal));
+        open(player, session, pos, "");
+        return true;
+    }
+
     private static void open(ServerPlayer player, StrikeSession session, BlockPos pos, String shape) {
         MinigameDifficulty.Params p = session.params();
         PacketDistributor.sendToPlayer(player, new OpenMinigamePayload(session.kind().ordinal(), pos, session.seed(),
@@ -191,7 +242,7 @@ public final class MinigameManager {
         PacketDistributor.sendToPlayer(player, new StrikeResultPayload(r.index(), r.verdict().ordinal(), (float) r.accuracy()));
         strikeEffects(level, active, r.verdict());
 
-        if (active.session.kind() == MinigameKind.HAMMERING) {
+        if (active.session.kind() != MinigameKind.BELLOWS) {
             ItemStack tool = player.getItemInHand(active.hand);
             tool.hurtAndBreak(1, player, LivingEntity.getSlotForHand(active.hand));
         }
@@ -257,9 +308,11 @@ public final class MinigameManager {
         if (!(level.getBlockEntity(active.pos) instanceof PieceHolder station) || station.getPiece() != active.pieceRef) {
             return MinigameEnd.PIECE_CHANGED;
         }
-        double temp = pieceTemperature(active.pieceRef, level.getGameTime());
-        if (StrikeMath.shouldAbortCold(temp, active.metal.workTempMin())) {
-            return MinigameEnd.COOLED;
+        if (active.session.kind() == MinigameKind.HAMMERING) {
+            double temp = pieceTemperature(active.pieceRef, level.getGameTime());
+            if (StrikeMath.shouldAbortCold(temp, active.metal.workTempMin())) {
+                return MinigameEnd.COOLED;
+            }
         }
         return null;
     }
@@ -283,6 +336,10 @@ public final class MinigameManager {
             end(player, MinigameEnd.PIECE_CHANGED, 0.0F);
             return;
         }
+        if (isFinishing(active.session.kind())) {
+            completeFinishing(player, level, active, station, score);
+            return;
+        }
         long now = level.getGameTime();
         HeatData oldHeat = active.pieceRef.get(ModDataComponents.HEAT.get());
         double burn = oldHeat == null ? 0.0 : oldHeat.burn();
@@ -298,9 +355,42 @@ public final class MinigameManager {
                 .with(StageScores.MODELING, (float) score)
                 .with(StageScores.THERMAL, (float) Math.max(0.0, 1.0 - burn)));
         result.remove(ModDataComponents.TREATMENT.get());
+        result.remove(ModDataComponents.FINISH.get());
 
         station.setPiece(result);
         level.playSound(null, active.pos, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, 0.7F, 1.1F);
+        end(player, MinigameEnd.COMPLETED, (float) score);
+    }
+
+    private static void completeFinishing(ServerPlayer player, ServerLevel level, Active active, PieceHolder station,
+                                          double score) {
+        ItemStack piece = active.pieceRef;
+        FinishState state = piece.getOrDefault(ModDataComponents.FINISH.get(), FinishState.NONE);
+        TreatmentState treatment = piece.getOrDefault(ModDataComponents.TREATMENT.get(), TreatmentState.NONE);
+        MinigameKind kind = active.session.kind();
+        String stage;
+        FinishState next;
+        switch (kind) {
+            case POLISHING -> {
+                next = FinishRules.polish(state, score);
+                stage = StageScores.POLISHING;
+            }
+            case SHARPENING -> {
+                next = FinishRules.sharpen(state, score, active.metal.hardness() + treatment.hardness(),
+                        treatment.brittleness());
+                stage = StageScores.SHARPENING;
+            }
+            default -> {
+                next = FinishRules.engrave(state, score);
+                stage = StageScores.ENGRAVING;
+            }
+        }
+        ItemStack result = piece.copy();
+        result.set(ModDataComponents.FINISH.get(), next);
+        StageScores previous = piece.getOrDefault(ModDataComponents.STAGE_SCORES.get(), StageScores.empty());
+        result.set(ModDataComponents.STAGE_SCORES.get(), previous.with(stage, (float) score));
+        station.setPiece(result);
+        level.playSound(null, active.pos, SoundEvents.GRINDSTONE_USE, SoundSource.BLOCKS, 0.8F, 1.3F);
         end(player, MinigameEnd.COMPLETED, (float) score);
     }
 
@@ -319,6 +409,11 @@ public final class MinigameManager {
     }
 
     private static void strikeEffects(ServerLevel level, Active active, StrikeVerdict verdict) {
+        if (isFinishing(active.session.kind())) {
+            float pitch = verdict == StrikeVerdict.PERFECT ? 1.5F : verdict == StrikeVerdict.GOOD ? 1.2F : 0.8F;
+            level.playSound(null, active.pos, SoundEvents.GRINDSTONE_USE, SoundSource.BLOCKS, 0.4F, pitch);
+            return;
+        }
         if (active.session.kind() != MinigameKind.HAMMERING) {
             level.playSound(null, active.pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.4F, 1.6F);
             return;

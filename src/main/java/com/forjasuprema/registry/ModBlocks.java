@@ -1,11 +1,14 @@
 package com.forjasuprema.registry;
 
 import com.forjasuprema.ForjaSuprema;
+import com.forjasuprema.minigame.MinigameKind;
 import com.forjasuprema.station.AlloyStationBlock;
 import com.forjasuprema.station.AnvilStationBlock;
+import com.forjasuprema.station.FinishStationBlock;
 import com.forjasuprema.station.ForgeBlock;
 import com.forjasuprema.station.HeatTreatmentFurnaceBlock;
 import com.forjasuprema.station.QuenchTankBlock;
+import com.forjasuprema.station.RuneStationBlock;
 import com.forjasuprema.station.WorkpieceStationBlock;
 import com.forjasuprema.thermal.ForgeTier;
 import java.util.ArrayList;
@@ -46,10 +49,14 @@ public final class ModBlocks {
     /** Forno de tratamento termico: usado sobre uma forja acesa. */
     public static final DeferredBlock<HeatTreatmentFurnaceBlock> HEAT_TREATMENT_FURNACE =
             BLOCKS.registerBlock("heat_treatment_furnace", HeatTreatmentFurnaceBlock::new, stone());
-    public static final DeferredBlock<WorkpieceStationBlock> POLISHING_STATION = workpiece("polishing_station", wood());
-    public static final DeferredBlock<WorkpieceStationBlock> SHARPENING_STONE = workpiece("sharpening_stone", stone());
-    public static final DeferredBlock<WorkpieceStationBlock> ENGRAVING_BENCH = workpiece("engraving_bench", wood());
-    public static final DeferredBlock<WorkpieceStationBlock> FINISHING_STATION = workpiece("finishing_station", wood());
+    public static final DeferredBlock<FinishStationBlock> POLISHING_STATION =
+            finish("polishing_station", MinigameKind.POLISHING, wood());
+    public static final DeferredBlock<FinishStationBlock> SHARPENING_STONE =
+            finish("sharpening_stone", MinigameKind.SHARPENING, stone());
+    public static final DeferredBlock<FinishStationBlock> ENGRAVING_BENCH =
+            finish("engraving_bench", MinigameKind.ENGRAVING, wood());
+    /** Estacao de acabamento: inscreve runas nas gravacoes. */
+    public static final DeferredBlock<RuneStationBlock> FINISHING_STATION = rune("finishing_station", wood());
 
     public static final DeferredBlock<AlloyStationBlock> ALLOY_STATION =
             BLOCKS.registerBlock("alloy_station", AlloyStationBlock::new, stone());
@@ -66,6 +73,19 @@ public final class ModBlocks {
 
     private static DeferredBlock<WorkpieceStationBlock> workpiece(String name, BlockBehaviour.Properties properties) {
         DeferredBlock<WorkpieceStationBlock> block = BLOCKS.registerBlock(name, WorkpieceStationBlock::new, properties);
+        WORKPIECE_STATIONS.add(block);
+        return block;
+    }
+
+    private static DeferredBlock<FinishStationBlock> finish(String name, MinigameKind kind, BlockBehaviour.Properties properties) {
+        DeferredBlock<FinishStationBlock> block =
+                BLOCKS.registerBlock(name, props -> new FinishStationBlock(kind, props), properties);
+        WORKPIECE_STATIONS.add(block);
+        return block;
+    }
+
+    private static DeferredBlock<RuneStationBlock> rune(String name, BlockBehaviour.Properties properties) {
+        DeferredBlock<RuneStationBlock> block = BLOCKS.registerBlock(name, RuneStationBlock::new, properties);
         WORKPIECE_STATIONS.add(block);
         return block;
     }

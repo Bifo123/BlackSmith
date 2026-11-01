@@ -20,6 +20,15 @@ public final class ModCreativeTabs {
                         ModItems.STATION_ITEMS.forEach(item -> output.accept(item.get()));
                         output.accept(ModItems.SMITH_HAMMER.get());
                         output.accept(ModItems.BELLOWS.get());
+                        output.accept(ModItems.POLISHING_CLOTH.get());
+                        output.accept(ModItems.METAL_FILE.get());
+                        output.accept(ModItems.ENGRAVING_CHISEL.get());
+                        parameters.holders().lookup(ModRegistries.RUNE).ifPresent(runes ->
+                                runes.listElementIds().forEach(key -> {
+                                    ItemStack stack = new ItemStack(ModItems.RUNE.get());
+                                    stack.set(ModDataComponents.RUNE.get(), key.location());
+                                    output.accept(stack);
+                                }));
                         output.accept(ModItems.TIN_ORE.get());
                         output.accept(ModItems.RAW_TIN.get());
                         output.accept(ModItems.TIN_INGOT.get());

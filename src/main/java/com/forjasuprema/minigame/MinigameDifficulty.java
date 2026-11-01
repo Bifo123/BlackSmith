@@ -18,6 +18,10 @@ public final class MinigameDifficulty {
     /** Dificuldade base dos foles (nao dependem de material). */
     private static final double BELLOWS_BASE = 0.20;
 
+    private static final double POLISHING_BASE = 0.15;
+    private static final double SHARPENING_BASE = 0.30;
+    private static final double ENGRAVING_BASE = 0.40;
+
     private MinigameDifficulty() {
     }
 
@@ -41,6 +45,17 @@ public final class MinigameDifficulty {
         return build(MinigameKind.BELLOWS, BELLOWS_BASE, toolQuality, playerLevel);
     }
 
+    /** Acabamento: polimento, afiacao ou gravacao. A gravacao e mais dificil em metais de tier alto. */
+    public static Params forFinishing(MinigameKind kind, int metalTier, double toolQuality, int playerLevel) {
+        double base = switch (kind) {
+            case POLISHING -> POLISHING_BASE;
+            case SHARPENING -> SHARPENING_BASE;
+            case ENGRAVING -> ENGRAVING_BASE + 0.10 * (Math.max(0, Math.min(4, metalTier)) / 4.0);
+            default -> throw new IllegalArgumentException("nao e um minigame de acabamento: " + kind);
+        };
+        return build(kind, base, toolQuality, playerLevel);
+    }
+
     private static Params build(MinigameKind kind, double base, double toolQuality, int playerLevel) {
         double skillBonus = Math.min(MAX_SKILL_BONUS, Math.max(0, playerLevel) * SKILL_BONUS_PER_LEVEL);
         double toolBonus = MAX_TOOL_BONUS * clamp01(toolQuality);
@@ -48,7 +63,7 @@ public final class MinigameDifficulty {
 
         double halfWidth = lerp(0.130, 0.045, difficulty);
         double period = lerp(64.0, 30.0, difficulty);
-        if (kind == MinigameKind.BELLOWS) {
+        if (kind == MinigameKind.BELLOWS || kind == MinigameKind.POLISHING) {
             // Foles sao mais permissivos: zona maior e marcador mais lento.
             halfWidth += 0.020;
             period += 10.0;

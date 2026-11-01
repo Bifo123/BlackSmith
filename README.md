@@ -13,7 +13,7 @@ O jogador começa como aprendiz e evolui até forjador lendário: aquece, martel
 | 4 | Temperatura e intensidade da chama | ✔ entregue |
 | 5 | Minigames | ✔ entregue |
 | 6 | Técnicas metalúrgicas | ✔ entregue |
-| 7 | Artesanato e acabamento | pendente |
+| 7 | Artesanato e acabamento | ✔ entregue |
 | 8 | Qualidade e equipamentos | pendente |
 | 9 | Progressão | pendente |
 | 10 | Integração com Create | pendente |
@@ -142,6 +142,29 @@ Os tratamentos são **determinísticos** (sem sorte): a nota vem de quão bem as
 3. **Recozimento**: com carvão vegetal (chama 2), alterne para *Recozimento*; ao final dureza e fragilidade voltam a zero.
 4. **Soldagem**: apoie um lingote de ferro quente (≥ 1150 °C) na bigorna e clique com outro lingote de ferro quente: vira *Lingote Soldado*.
 5. `gradle test` roda as regras de tratamento e de solda.
+
+## O que existe hoje (Fase 7)
+
+Acabamento de **peças forjadas** (chapa, barra, pregos, lingote soldado; lingotes crus não recebem acabamento). Cada etapa é um minigame validado no servidor (mesmo `StrikeSession` da Fase 5), e **a peça precisa estar fria (≤ 60 °C)**: peça quente é recusada antes de qualquer desempenho.
+
+| Etapa | Estação + ferramenta | Regras |
+|---|---|---|
+| **Polimento** | Estação de Polimento + Pano de Polimento | ritmo; nota = polimento (0–100%); polir de novo nunca piora |
+| **Afiação** | Pedra de Afiar + Lima de Metal | ritmo; fio depende da nota, da dureza total (metal + tratamento) e perde até 25% com a fragilidade |
+| **Gravação** | Bancada de Gravação + Cinzel | direcional; exige polimento ≥ 20%; cada gravação abre um encaixe, até 1 + tier/2 por peça (tier 0–1: 1, 2–3: 2, 4: 3) |
+| **Runas** | Estação de Acabamento + item de Runa | uma runa por encaixe livre; exige tier mínimo do metal, polimento mínimo e runa não repetida; a potência final vai de 50% a 100% da base conforme a nota da gravação |
+
+- **Runas por datapack** (`data/<ns>/forjasuprema/rune/<id>.json`: `power`, `min_tier`, `min_polish`, `effect`). Incluídas: Afiação (`keen`), Agilidade (`swift`), Proteção (`warding`) e Chama (`flame`). O `effect` só é aplicado ao equipamento na Fase 8; por ora a runa fica gravada e aparece no tooltip.
+- Aquecer ou forjar a peça de novo **apaga o acabamento** (forma-se carepa); as notas das etapas ficam registradas.
+- A Bancada de Modelagem segue reservada para a montagem de equipamentos (Fase 8).
+
+### Testar a Fase 7
+
+1. Forje uma chapa de ferro (Fase 5) e deixe esfriar (ou temple no tanque). Apoie na **Estação de Polimento** e clique com o **Pano de Polimento**: minigame de ritmo. Quente demais: mensagem com o limite.
+2. Na **Pedra de Afiar** com a **Lima**: tooltip mostra "Fio". Compare uma chapa de aço temperada com uma de cobre.
+3. Na **Bancada de Gravação** com o **Cinzel**: sem polimento recusa; polida, abre minigame direcional e cria um encaixe ("Gravações 0/1").
+4. Pegue uma **Runa** (aba criativa ou receita: lazuli + pepita de ouro + ingrediente da runa), apoie a peça na **Estação de Acabamento** e clique com a runa. Metal de tier baixo recusa runas de tier alto.
+5. `gradle test` cobre as regras de acabamento e a dificuldade dos novos minigames.
 
 ## Compilar e testar
 

@@ -19,6 +19,10 @@ public record StageScores(Map<String, Float> scores) {
     public static final String THERMAL = "thermal";
     /** Qualidade da soldagem por forjamento. */
     public static final String WELD = "weld";
+    /** Notas de acabamento. */
+    public static final String POLISHING = "polishing";
+    public static final String SHARPENING = "sharpening";
+    public static final String ENGRAVING = "engraving";
 
     private static final int MAX_ENTRIES = 32;
 

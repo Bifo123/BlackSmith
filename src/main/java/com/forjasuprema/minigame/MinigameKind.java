@@ -5,7 +5,13 @@ public enum MinigameKind {
     /** Martelamento na bigorna: golpes com direcao, modelam a peca. */
     HAMMERING(true),
     /** Foles na forja: sopro ritmado que acelera o aquecimento. */
-    BELLOWS(false);
+    BELLOWS(false),
+    /** Polimento: passadas ritmadas no pano. */
+    POLISHING(false),
+    /** Afiacao: passadas ritmadas na lima. */
+    SHARPENING(false),
+    /** Gravacao: golpes de cinzel com direcao. */
+    ENGRAVING(true);
 
     private final boolean directional;
 
