@@ -114,7 +114,7 @@ class StrikeMathTest {
         assertEquals(StrikeDirection.NONE, StrikeDirection.fromOrdinal(-1));
         assertEquals(StrikeDirection.NONE, StrikeDirection.fromOrdinal(99));
         assertEquals(StrikeDirection.RIGHT, StrikeDirection.fromOrdinal(4));
-        assertEquals(MinigameKind.BELLOWS, MinigameKind.fromOrdinal(99));
+        assertEquals(MinigameKind.ENGRAVING, MinigameKind.fromOrdinal(99));
         assertEquals(MinigameKind.HAMMERING, MinigameKind.fromOrdinal(-3));
     }
 
