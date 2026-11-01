@@ -158,5 +158,20 @@
   "tooltip.forjasuprema.finish.rune": "Runa de %s (%s%%)",
   "tooltip.forjasuprema.stage.polishing": "Polimento: %s%%",
   "tooltip.forjasuprema.stage.sharpening": "Afiação: %s%%",
-  "tooltip.forjasuprema.stage.engraving": "Gravação: %s%%"
+  "tooltip.forjasuprema.stage.engraving": "Gravação: %s%%",
+  "quality.forjasuprema.defective": "Defeituoso",
+  "quality.forjasuprema.rudimentary": "Rudimentar",
+  "quality.forjasuprema.common": "Comum",
+  "quality.forjasuprema.good": "Bom",
+  "quality.forjasuprema.excellent": "Excelente",
+  "quality.forjasuprema.perfect": "Perfeito",
+  "quality.forjasuprema.legendary": "Lendário",
+  "tooltip.forjasuprema.quality": "Qualidade: %s (%s%%)",
+  "message.forjasuprema.bench.empty": "Apoie peças forjadas na bancada primeiro.",
+  "message.forjasuprema.bench.full": "A bancada está cheia.",
+  "message.forjasuprema.bench.mixed_metals": "Todas as peças precisam ser do mesmo metal.",
+  "message.forjasuprema.bench.no_recipe": "Estas peças não formam nenhum equipamento. Espada: 2 chapas + 1 barra; machado: 3 chapas + 1 barra; picareta: 2 chapas + 2 barras.",
+  "message.forjasuprema.bench.metal_unsuitable": "Este metal não faz esse equipamento.",
+  "message.forjasuprema.bench.count": "Bancada: %s/%s peças",
+  "message.forjasuprema.bench.done": "Montado: %s (%s%%)."
 }

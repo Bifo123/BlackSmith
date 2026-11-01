@@ -158,5 +158,20 @@
   "tooltip.forjasuprema.finish.rune": "Rune of %s (%s%%)",
   "tooltip.forjasuprema.stage.polishing": "Polishing: %s%%",
   "tooltip.forjasuprema.stage.sharpening": "Sharpening: %s%%",
-  "tooltip.forjasuprema.stage.engraving": "Engraving: %s%%"
+  "tooltip.forjasuprema.stage.engraving": "Engraving: %s%%",
+  "quality.forjasuprema.defective": "Defective",
+  "quality.forjasuprema.rudimentary": "Rudimentary",
+  "quality.forjasuprema.common": "Common",
+  "quality.forjasuprema.good": "Good",
+  "quality.forjasuprema.excellent": "Excellent",
+  "quality.forjasuprema.perfect": "Perfect",
+  "quality.forjasuprema.legendary": "Legendary",
+  "tooltip.forjasuprema.quality": "Quality: %s (%s%%)",
+  "message.forjasuprema.bench.empty": "Place forged parts on the bench first.",
+  "message.forjasuprema.bench.full": "The bench is full.",
+  "message.forjasuprema.bench.mixed_metals": "All parts must be made of the same metal.",
+  "message.forjasuprema.bench.no_recipe": "These parts do not make any equipment. Sword: 2 plates + 1 rod; axe: 3 plates + 1 rod; pickaxe: 2 plates + 2 rods.",
+  "message.forjasuprema.bench.metal_unsuitable": "This metal cannot make that equipment.",
+  "message.forjasuprema.bench.count": "Bench: %s/%s parts",
+  "message.forjasuprema.bench.done": "Assembled: %s (%s%%)."
 }

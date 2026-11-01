@@ -290,6 +290,10 @@ public class ForgeBlockEntity extends WorkpieceBlockEntity implements HeatSource
         double burn = pieceBurn;
         Metal metal = pieceMetal;
         ItemStack taken = super.takePiece();
+        if (!taken.isEmpty()) {
+            int previous = taken.getOrDefault(ModDataComponents.FORGE_TIER.get(), 0);
+            taken.set(ModDataComponents.FORGE_TIER.get(), Math.max(previous, tier.ordinal()));
+        }
         if (!taken.isEmpty() && metal != null && level != null) {
             if (temp > ThermalMath.AMBIENT + 1.0 || burn > 0.0) {
                 taken.set(ModDataComponents.HEAT.get(), new HeatData(temp, level.getGameTime(), burn));

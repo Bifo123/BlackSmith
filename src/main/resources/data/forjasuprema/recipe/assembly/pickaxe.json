@@ -1,0 +1,34 @@
+{
+  "type": "forjasuprema:assembly",
+  "parts": [
+    {
+      "shape": "plate",
+      "count": 2
+    },
+    {
+      "shape": "rod",
+      "count": 2
+    }
+  ],
+  "results": {
+    "forjasuprema:iron": "minecraft:iron_pickaxe",
+    "forjasuprema:steel": "minecraft:diamond_pickaxe",
+    "forjasuprema:damascus_steel": "minecraft:netherite_pickaxe",
+    "forjasuprema:copper": "minecraft:stone_pickaxe",
+    "forjasuprema:bronze": "minecraft:iron_pickaxe",
+    "forjasuprema:royal_bronze": "minecraft:golden_pickaxe",
+    "forjasuprema:gold": "minecraft:golden_pickaxe"
+  },
+  "attack_damage": 3.0,
+  "attack_speed": 1.2,
+  "durability": 250,
+  "legendary_capable": false,
+  "weights": {
+    "material": 0.1,
+    "modeling": 0.3,
+    "thermal": 0.15,
+    "weld": 0.1,
+    "treatment": 0.2,
+    "finish": 0.25
+  }
+}

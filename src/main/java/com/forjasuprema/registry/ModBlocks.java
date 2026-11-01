@@ -9,6 +9,7 @@ import com.forjasuprema.station.ForgeBlock;
 import com.forjasuprema.station.HeatTreatmentFurnaceBlock;
 import com.forjasuprema.station.QuenchTankBlock;
 import com.forjasuprema.station.RuneStationBlock;
+import com.forjasuprema.station.ShapingBenchBlock;
 import com.forjasuprema.station.WorkpieceStationBlock;
 import com.forjasuprema.thermal.ForgeTier;
 import java.util.ArrayList;
@@ -42,7 +43,9 @@ public final class ModBlocks {
 
     /** Bigorna: com o martelo na mao inicia o minigame de martelamento. */
     public static final DeferredBlock<AnvilStationBlock> BLACKSMITH_ANVIL = anvil("blacksmith_anvil", iron());
-    public static final DeferredBlock<WorkpieceStationBlock> SHAPING_BENCH = workpiece("shaping_bench", wood());
+    /** Bancada de Modelagem: monta equipamentos a partir das pecas forjadas. */
+    public static final DeferredBlock<ShapingBenchBlock> SHAPING_BENCH =
+            BLOCKS.registerBlock("shaping_bench", ShapingBenchBlock::new, wood());
     /** Tanque de tempera: encha com agua e clique com uma peca quente de metal. */
     public static final DeferredBlock<QuenchTankBlock> QUENCH_TANK =
             BLOCKS.registerBlock("quench_tank", QuenchTankBlock::new, iron());

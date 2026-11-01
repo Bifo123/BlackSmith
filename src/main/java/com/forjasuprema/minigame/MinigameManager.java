@@ -354,6 +354,7 @@ public final class MinigameManager {
         result.set(ModDataComponents.STAGE_SCORES.get(), previous
                 .with(StageScores.MODELING, (float) score)
                 .with(StageScores.THERMAL, (float) Math.max(0.0, 1.0 - burn)));
+        result.set(ModDataComponents.FORGE_TIER.get(), active.pieceRef.getOrDefault(ModDataComponents.FORGE_TIER.get(), 0));
         result.remove(ModDataComponents.TREATMENT.get());
         result.remove(ModDataComponents.FINISH.get());
 

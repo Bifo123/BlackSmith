@@ -3,6 +3,7 @@ package com.forjasuprema.registry;
 import com.forjasuprema.ForjaSuprema;
 import com.forjasuprema.finish.FinishCodecs;
 import com.forjasuprema.finish.FinishState;
+import com.forjasuprema.quality.QualityData;
 import com.forjasuprema.quality.StageScores;
 import com.forjasuprema.thermal.HeatData;
 import com.forjasuprema.treatment.TreatmentCodecs;
@@ -53,6 +54,16 @@ public final class ModDataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> RUNE =
             DATA_COMPONENTS.registerComponentType("rune",
                     builder -> builder.persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC));
+
+    /** Classe de qualidade e nota final do equipamento. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<QualityData>> QUALITY =
+            DATA_COMPONENTS.registerComponentType("quality",
+                    builder -> builder.persistent(QualityData.CODEC).networkSynchronized(QualityData.STREAM_CODEC));
+
+    /** Maior categoria de forja (0 Aprendiz ... 4 Lendaria) pela qual a peca passou; usada no Lendario. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FORGE_TIER =
+            DATA_COMPONENTS.registerComponentType("forge_tier",
+                    builder -> builder.persistent(Codec.intRange(0, 4)).networkSynchronized(ByteBufCodecs.VAR_INT));
 
     private ModDataComponents() {
     }

@@ -1,6 +1,7 @@
 package com.forjasuprema.client;
 
 import com.forjasuprema.ForjaSuprema;
+import com.forjasuprema.quality.QualityData;
 import com.forjasuprema.quality.StageScores;
 import com.forjasuprema.finish.FinishState;
 import com.forjasuprema.finish.RuneItem;
@@ -21,6 +22,21 @@ public final class StageTooltip {
 
     @SubscribeEvent
     public static void onTooltip(ItemTooltipEvent event) {
+        QualityData quality = event.getItemStack().get(ModDataComponents.QUALITY.get());
+        if (quality != null) {
+            ChatFormatting color = switch (quality.tierOrCommon()) {
+                case DEFECTIVE -> ChatFormatting.DARK_RED;
+                case RUDIMENTARY -> ChatFormatting.RED;
+                case COMMON -> ChatFormatting.WHITE;
+                case GOOD -> ChatFormatting.GREEN;
+                case EXCELLENT -> ChatFormatting.AQUA;
+                case PERFECT -> ChatFormatting.LIGHT_PURPLE;
+                case LEGENDARY -> ChatFormatting.GOLD;
+            };
+            event.getToolTip().add(Component.translatable("tooltip.forjasuprema.quality",
+                    Component.translatable("quality.forjasuprema." + quality.tierOrCommon().id()),
+                    Math.round(quality.score() * 100)).withStyle(color));
+        }
         TreatmentState treatment = event.getItemStack().get(ModDataComponents.TREATMENT.get());
         if (treatment != null && !treatment.isUntreated()) {
             event.getToolTip().add(Component.translatable("tooltip.forjasuprema.treatment.hardness",

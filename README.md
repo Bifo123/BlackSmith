@@ -14,7 +14,7 @@ O jogador começa como aprendiz e evolui até forjador lendário: aquece, martel
 | 5 | Minigames | ✔ entregue |
 | 6 | Técnicas metalúrgicas | ✔ entregue |
 | 7 | Artesanato e acabamento | ✔ entregue |
-| 8 | Qualidade e equipamentos | pendente |
+| 8 | Qualidade e equipamentos | ✔ entregue (espada, machado e picareta; armaduras ficam para uma fase futura) |
 | 9 | Progressão | pendente |
 | 10 | Integração com Create | pendente |
 | 11 | Compatibilidade externa | pendente |
@@ -165,6 +165,25 @@ Acabamento de **peças forjadas** (chapa, barra, pregos, lingote soldado; lingot
 3. Na **Bancada de Gravação** com o **Cinzel**: sem polimento recusa; polida, abre minigame direcional e cria um encaixe ("Gravações 0/1").
 4. Pegue uma **Runa** (aba criativa ou receita: lazuli + pepita de ouro + ingrediente da runa), apoie a peça na **Estação de Acabamento** e clique com a runa. Metal de tier baixo recusa runas de tier alto.
 5. `gradle test` cobre as regras de acabamento e a dificuldade dos novos minigames.
+
+## O que existe hoje (Fase 8)
+
+- **Bancada de Modelagem** (monta equipamentos): apoie as peças forjadas (até 4, todas do mesmo metal; clique com a peça), clique com o **Martelo** para montar e receba o equipamento. Mão vazia recolhe a última peça; agachado mostra o conteúdo.
+  - Espada = 2 chapas + 1 barra; Machado = 3 chapas + 1 barra; Picareta = 2 chapas + 2 barras (receitas `forjasuprema:assembly`, definidas por datapack, com o item resultante por metal, atributos base e pesos).
+- **7 classes de qualidade**: Defeituoso, Rudimentar, Comum, Bom, Excelente, Perfeito e Lendário (faixas 0.20 / 0.40 / 0.60 / 0.78 / 0.90 / 0.97).
+- **Cálculo (sem aleatoriedade)**: média ponderada das etapas (material, modelagem, térmica, soldagem, tratamento, acabamento), limitada pelo **pior** resultado de artesanato + 0.35. Uma etapa ruim derruba o item; nenhum minigame sozinho o salva. Etapas que a receita exige e faltam (ex.: acabamento) valem 0.
+- **Lendário** exige nota ≥ 0.97, todas as etapas ≥ 0.90, metal de tier ≥ 3 (ex.: aço de damasco), receita com `legendary_capable` (espada e machado) e peças que passaram por forja de Mestre ou superior.
+- **Atributos**: dano e durabilidade dependem do metal (força e dureza, incluindo a dureza do tratamento), da classe, do fio e da fragilidade. Perfeito ganha 1 atributo extra e Lendário 2, escolhidos por uma **semente determinística** (receita + metal + notas): o mesmo desempenho dá o mesmo item, sem "rerrolar".
+- **Runas inscritas agora têm efeito**: Afiação (+dano), Agilidade (+velocidade de ataque), Proteção (+armadura), Chama (Aspecto Flamejante). Efeitos de runas de datapacks externos ficam só registrados.
+- O tooltip mostra a classe (colorida), as notas por etapa, o acabamento e as runas.
+- **Limites**: o tier de mineração dos equipamentos é o do item vanilla escolhido para o metal (ex.: aço → diamante, definido no datapack); armaduras e outros tipos de equipamento ainda não existem.
+
+### Testar a Fase 8
+
+1. Forje 2 chapas e 1 barra de ferro (Fase 5), opcionalmente tempere (Fase 6) e dê acabamento (Fase 7: polir todas as peças e afiar a chapa).
+2. Apoie as 3 peças na **Bancada de Modelagem** e clique com o martelo. Veja a classe no tooltip; refaça pulando o acabamento e compare (a falta de acabamento limita a nota).
+3. Para Lendário: aço de damasco, forja passando por Forja de Mestre, todas as etapas ≥ 90%.
+4. `gradle test` cobre a classificação, o teto, as condições do Lendário e a semente determinística.
 
 ## Compilar e testar
 

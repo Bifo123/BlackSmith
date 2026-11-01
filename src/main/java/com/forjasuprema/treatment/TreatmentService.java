@@ -95,6 +95,9 @@ public final class TreatmentService {
         double burn = Math.max(heatA == null ? 0.0 : heatA.burn(), heatB == null ? 0.0 : heatB.burn());
         result.set(ModDataComponents.HEAT.get(), new HeatData(Math.min(tempA, tempB), now, burn));
         result.set(ModDataComponents.STAGE_SCORES.get(), StageScores.empty().with(StageScores.WELD, (float) quality));
+        result.set(ModDataComponents.FORGE_TIER.get(), Math.min(
+                anvilPiece.getOrDefault(ModDataComponents.FORGE_TIER.get(), 0),
+                handStack.getOrDefault(ModDataComponents.FORGE_TIER.get(), 0)));
         return new Outcome(null, result, quality);
     }
 

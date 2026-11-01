@@ -5,6 +5,7 @@ import com.forjasuprema.station.AlloyStationBlockEntity;
 import com.forjasuprema.station.ForgeBlockEntity;
 import com.forjasuprema.station.HeatTreatmentFurnaceBlockEntity;
 import com.forjasuprema.station.QuenchTankBlockEntity;
+import com.forjasuprema.station.ShapingBenchBlockEntity;
 import com.forjasuprema.station.WorkpieceBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
@@ -32,6 +33,11 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HeatTreatmentFurnaceBlockEntity>> HEAT_TREATMENT =
             BLOCK_ENTITIES.register("heat_treatment_furnace", () -> BlockEntityType.Builder.of(
                     HeatTreatmentFurnaceBlockEntity::new, ModBlocks.HEAT_TREATMENT_FURNACE.get()
+            ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ShapingBenchBlockEntity>> SHAPING_BENCH =
+            BLOCK_ENTITIES.register("shaping_bench", () -> BlockEntityType.Builder.of(
+                    ShapingBenchBlockEntity::new, ModBlocks.SHAPING_BENCH.get()
             ).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuenchTankBlockEntity>> QUENCH_TANK =

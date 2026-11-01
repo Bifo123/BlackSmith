@@ -118,7 +118,7 @@ Cada etapa produz uma nota `s ∈ [0,1]`: **material**, **modelagem**, **térmic
 
 ```
 base   = Σ(w_i · s_i)
-teto   = min_i(s_i) + 0.35          # uma etapa ruim limita o resultado
+teto   = min_i(s_i) + 0.35          # uma etapa ruim limita o resultado (o material fica fora do min: nao e desempenho)
 Q      = min(base, teto)            # nenhum minigame sozinho carrega a peça
 ```
 
